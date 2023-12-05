@@ -62,7 +62,10 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "kritik-saran",
-				element:  <KritikSaran/>
+				element:  <KritikSaran/>,
+				children : [
+						
+				]
 			},
 		],
 	},
