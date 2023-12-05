@@ -19,7 +19,7 @@ import StarIcon from '@mui/icons-material/Star';
 // - rating
 // - nama user
 // - kritik
-// - saran
+// - saran 
 
 const reviews = [ // data dummy - diambil dari database nanti
   { id: 1, name: 'John Doe', rating: 3, kritik: 'Great product, highly recommended!', saran: 'ini saran'},
