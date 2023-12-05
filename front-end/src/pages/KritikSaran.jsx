@@ -36,6 +36,7 @@ const reviews = [ // data dummy - diambil dari database nanti
 const ReviewPage = () => {
   const [sortBy, setSortBy] = useState(null);
   const [showAllReviews, setShowAllReviews] = useState(false);
+  const [jumlahDisplay, setJumlahDisplay] = useState(4);
 
   const [showForm, setShowForm] = useState(false);
   const [newReview, setNewReview] = useState({
@@ -81,9 +82,9 @@ const ReviewPage = () => {
   });
 
   const displayedReviews =
-    showAllReviews || sortedReviews.length <= 6
+    showAllReviews || sortedReviews.length <= jumlahDisplay
       ? sortedReviews
-      : sortedReviews.slice(0, 6);
+      : sortedReviews.slice(0, );jumlahDisplay
 
   return (
     <React.Fragment>
@@ -120,7 +121,9 @@ const ReviewPage = () => {
             </Grid>
           ))}
         </Grid>
-        {sortedReviews.length > 6 && (
+
+        {/* BUTTON SHOW ALL */}
+        {sortedReviews.length > jumlahDisplay && (
           <Box sx={{ textAlign: 'center', mt: 2 }}>
           {showAllReviews ? (
             <Button onClick={() => setShowAllReviews(false)}>Show Less Reviews</Button>
@@ -132,6 +135,7 @@ const ReviewPage = () => {
         </Box>
         )}
         
+        {/* BUTTON SHOW FORM */}
         {!showForm && (
           <Box sx={{ my: 3, textAlign: 'center' }}>
             <Button variant="contained" color="primary" onClick={()=>setShowForm(true)}>
