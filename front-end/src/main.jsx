@@ -14,6 +14,7 @@ import Admin from "./pages/Admin";
 import Pet from "./pages/Pet";
 import UpdatePet from "./components/UpdatePet";
 import Profile from "./pages/Profile";
+import KritikSaran from "./pages/KritikSaran";
 
 const router = createBrowserRouter([
 	{
@@ -53,11 +54,15 @@ const router = createBrowserRouter([
 			{
 				path: "Profile",
 				element: <Profile />,
-        children : [
-          {
-            path : ""
-          }
-        ]
+				children : [
+				{
+					path : ""
+				}
+				]
+			},
+			{
+				path: "kritik-saran",
+				element:  <KritikSaran/>
 			},
 		],
 	},
