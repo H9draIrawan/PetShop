@@ -1,16 +1,23 @@
+import { Button } from "@mui/material";
 import { NavLink, Outlet } from "react-router-dom";
 
 export default function Pet() {
 	return (
 		<>
-			<NavLink to={"Add"} className="bg-blue-500 px-3 mx-5">
-				Add Pet
+			<NavLink to={"Add"}>
+				<Button variant="contained" sx={{ m: 3 }}>
+					Tambah Pet
+				</Button>
 			</NavLink>
-			<NavLink to={"Delete"} className="bg-blue-500 px-3 mx-5">
-				Delete Pet
+			<NavLink to={"Delete"}>
+				<Button variant="contained" sx={{ m: 3 }}>
+					Hapus Pet
+				</Button>
 			</NavLink>
-			<NavLink to={"Update"} className="bg-blue-500 px-3 mx-5">
-				Update Pet
+			<NavLink to={"Update"}>
+				<Button variant="contained" sx={{ m: 3 }}>
+					Perbarui Pet
+				</Button>
 			</NavLink>
 			<Outlet />
 		</>
