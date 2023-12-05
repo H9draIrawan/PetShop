@@ -84,7 +84,7 @@ const KritikSaran = () => {
   const displayedReviews =
     showAllReviews || sortedReviews.length <= jumlahDisplay
       ? sortedReviews
-      : sortedReviews.slice(0, );jumlahDisplay
+      : sortedReviews.slice(0, jumlahDisplay);
 
   return (
     <React.Fragment>
