@@ -33,7 +33,7 @@ const reviews = [ // data dummy - diambil dari database nanti
   // Add more reviews as needed
 ];
 
-const ReviewPage = () => {
+const KritikSaran = () => {
   const [sortBy, setSortBy] = useState(null);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [jumlahDisplay, setJumlahDisplay] = useState(4);
@@ -187,4 +187,4 @@ const ReviewPage = () => {
   );
 };
 
-export default ReviewPage;
+export default KritikSaran;

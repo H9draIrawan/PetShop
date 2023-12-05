@@ -6,7 +6,10 @@ export default function Home() {
 			<NavLink to={"/Home"} className="text-3xl font-bold">Pet Shop</NavLink>
 			<NavLink to={"Profile"} className="bg-blue-500 rounded-lg mx-5 px-3">Profile</NavLink>
 			<NavLink to={"Pet"} className="bg-blue-500 rounded-lg mx-5 px-3">Pet</NavLink>
+			<NavLink to={"kritik-saran"} className="bg-blue-500 rounded-lg mx-5 px-3">Kritik dan Saran</NavLink>
 			<br />
+			<br />
+
 			<Outlet />
 		</div>
 	);
