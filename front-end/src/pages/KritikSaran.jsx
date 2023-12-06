@@ -12,37 +12,40 @@ import {
   Rating,
   Button,
   TextField,
+  MenuItem,
+  Select,
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 
-// KRITIK SARAN
-// - rating
-// - nama user
-// - kritik
-// - saran 
+// mandi
+// potong kuku
+// basmi kutu
+// potong bulu
+// grooming (semua)
 
-const reviews = [ // data dummy - diambil dari database nanti
-  { id: 1, name: 'John Doe', rating: 3, kritik: 'Great product, highly recommended!', saran: 'ini saran'},
-  { id: 2, name: 'Jane Smith', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran'},
-  { id: 3, name: 'Jane a', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran'},
-  { id: 4, name: 'Jane b', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran'},
-  { id: 5, name: 'Jane c', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran'},
-  { id: 6, name: 'Jane d', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran'},
-  { id: 7, name: 'Jane e', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran'},
-
-  // Add more reviews as needed
+const reviews = [
+  { id: 1, name: 'John Doe', rating: 3, kritik: 'Great product, highly recommended!', saran: 'ini saran', category: 'Mandi' },
+  { id: 2, name: 'Jane Smith', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', category: 'Mandi' },
+  { id: 3, name: 'Jane a', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', category: 'Potong Bulu' },
+  { id: 4, name: 'Jane b', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', category: 'Basmi Kutu' },
+  { id: 5, name: 'Jane c', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', category: 'Grooming' },
+  { id: 6, name: 'Jane d', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', category: 'Mandi' },
+  { id: 7, name: 'Jane e', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', category: 'Potong kuku' },
 ];
 
 const KritikSaran = () => {
   const [sortBy, setSortBy] = useState(null);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [jumlahDisplay, setJumlahDisplay] = useState(6);
-// 
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
   const [showForm, setShowForm] = useState(false);
   const [newReview, setNewReview] = useState({
     name: '',
     rating: '',
-    comment: '',
+    kritik: '',
+    saran: '',
+    category: 'Grooming', // Default category for new reviews
   });
 
   const handleChange = (e) => {
@@ -57,6 +60,10 @@ const KritikSaran = () => {
     setSortBy(order);
   };
 
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
   const handleSubmitReview = () => {
     // Handle submitting the new review (e.g., send it to an API)
     console.log('Submitting review:', newReview);
@@ -64,7 +71,9 @@ const KritikSaran = () => {
     setNewReview({
       name: '',
       rating: '',
-      comment: '',
+      kritik: '',
+      saran: '',
+      category: 'Grooming',
     });
     // Hide the form after submission
     setShowForm(false);
@@ -81,10 +90,17 @@ const KritikSaran = () => {
     return 0;
   });
 
+  const filteredReviews = selectedCategory === 'All'
+    ? sortedReviews
+    : sortedReviews.filter(review => review.category === selectedCategory);
+
   const displayedReviews =
-    showAllReviews || sortedReviews.length <= jumlahDisplay
-      ? sortedReviews
-      : sortedReviews.slice(0, jumlahDisplay);
+    showAllReviews || filteredReviews.length <= jumlahDisplay
+      ? filteredReviews
+      : filteredReviews.slice(0, jumlahDisplay);
+
+  const categories = Array.from(new Set(reviews.map(review => review.category)));
+  categories.unshift('All');
 
   return (
     <React.Fragment>
@@ -98,12 +114,29 @@ const KritikSaran = () => {
       <Container>
         {/* BUTTON SORT-------- */}
         <Box sx={{ textAlign: 'right', mb: 2 }}>
-                Sort : 
-            <Button onClick={() => handleSort('lowest')}>by Lowest</Button>
-            <Button onClick={() => handleSort('highest')}>by Highest</Button>
-            <Button onClick={() => handleSort('lastAdded')}>by Recent added</Button>
+          Sort : 
+          <Button onClick={() => handleSort('lowest')}>by Lowest</Button>
+          <Button onClick={() => handleSort('highest')}>by Highest</Button>
+          <Button onClick={() => handleSort('lastAdded')}>by Recent added</Button>
         </Box>
         {/* ----------------- */}
+
+        {/* CATEGORY SELECT */}
+        <Box sx={{ textAlign: 'right', mb: 2 }}>
+          <Select
+            label="Category"
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+          >
+            {categories.map((category) => (
+              <MenuItem key={category} value={category}>
+                {category}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
+        {/* ----------------- */}
+
         <Grid container spacing={3}>
           {displayedReviews.map((review) => (
             <Grid item key={review.id} xs={12} md={6} lg={4}>
@@ -123,16 +156,16 @@ const KritikSaran = () => {
         </Grid>
 
         {/* BUTTON SHOW ALL */}
-        {sortedReviews.length > jumlahDisplay && (
+        {filteredReviews.length > jumlahDisplay && (
           <Box sx={{ textAlign: 'center', mt: 2 }}>
-          {showAllReviews ? (
-            <Button onClick={() => setShowAllReviews(false)}>Show Less Reviews</Button>
-          ) : (
-            <Button onClick={() => setShowAllReviews(true)}>
-              {showAllReviews ? 'Show Less Reviews' : 'Show More Reviews'}
-            </Button>
-          )}
-        </Box>
+            {showAllReviews ? (
+              <Button onClick={() => setShowAllReviews(false)}>Show Less Reviews</Button>
+            ) : (
+              <Button onClick={() => setShowAllReviews(true)}>
+                {showAllReviews ? 'Show Less Reviews' : 'Show More Reviews'}
+              </Button>
+            )}
+          </Box>
         )}
         
         {/* BUTTON SHOW FORM */}
@@ -167,9 +200,19 @@ const KritikSaran = () => {
                 margin="normal"
                 />
                 <TextField
-                label="Comment"
-                name="comment"
-                value={newReview.comment}
+                label="Kritik"
+                name="kritik"
+                value={newReview.kritik}
+                onChange={handleChange}
+                fullWidth
+                multiline
+                rows={4}
+                margin="normal"
+                />
+                <TextField
+                label="Saran"
+                name="saran"
+                value={newReview.saran}
                 onChange={handleChange}
                 fullWidth
                 multiline
