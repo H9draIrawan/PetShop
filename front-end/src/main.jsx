@@ -5,8 +5,7 @@ import {
 	RouterProvider,
 	createBrowserRouter,
 } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import RegisterLogin from "./pages/RegisterLogin";
 import Home from "./pages/Home";
 import AddPet from "./components/AddPet";
 import DeletePet from "./components/DeletePet";
@@ -22,12 +21,8 @@ const router = createBrowserRouter([
 		element: <Navigate to={"login"} />,
 	},
 	{
-		path: "login",
-		element: <Login />,
-	},
-	{
-		path: "register",
-		element: <Register />,
+		path: "registerLogin",
+		element: <RegisterLogin />,
 	},
 	{
 		path: "home",
