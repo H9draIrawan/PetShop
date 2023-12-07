@@ -1,69 +1,158 @@
 import React, { useState } from 'react';
-import {
-  AppBar,
-  Box,
-  Container,
-  CssBaseline,
-  Grid,
-  IconButton,
-  Paper,
-  Toolbar,
-  Typography,
-  Rating,
-  Button,
-  TextField,
-  MenuItem,
-  Select,
-} from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
+import { Container, Paper, Grid, Typography, TextField, Button } from '@mui/material';
 
 const RegisterLogin = () => {
+  const [registerData, setRegisterData] = useState({
+    name: '',
+    username: '',
+    password: '',
+    email: '',
+    address: '',
+    city: '',
+    phoneNumber: '',
+  });
+
+  const [loginData, setLoginData] = useState({
+    usernameOrEmail: '',
+    password: '',
+  });
+
+  const handleRegisterChange = (e) => {
+    setRegisterData({ ...registerData, [e.target.name]: e.target.value });
+  };
+
+  const handleLoginChange = (e) => {
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  };
+
+  // const handleRegisterSubmit = (e) => {
+  //   e.preventDefault();
+  //   // Add logic to send registration data to the server
+  //   console.log('Register:', registerData);
+  // };
+
+  // const handleLoginSubmit = (e) => {
+  //   e.preventDefault();
+  //   // Add logic to send login data to the server
+  //   console.log('Login:', loginData);
+  // };
 
   return (
-    <>
-        <form>
+    <Container maxWidth="md" sx={{ mt: 10 }}>
+      <Grid container spacing={30}>
+        {/* Register Form */}
+        <Grid item xs={6}>
+          <Typography variant="h6" gutterBottom>
+            Register
+          </Typography>
+          {/* <form onSubmit={handleRegisterSubmit}> */}
+          <form>
+            {/* Add more form fields as needed */}
             <TextField
-            label="Your Name"
-            name="name"
-            value={newReview.name}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              label="Name"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="name"
+              value={registerData.name}
+              onChange={handleRegisterChange}
             />
             <TextField
-            label="Rating"
-            name="rating"
-            value={newReview.rating}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
+              label="Username"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="username"
+              value={registerData.username}
+              onChange={handleRegisterChange}
             />
             <TextField
-            label="Kritik"
-            name="kritik"
-            value={newReview.kritik}
-            onChange={handleChange}
-            fullWidth
-            multiline
-            rows={4}
-            margin="normal"
+              label="Email"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="email"
+              value={registerData.email}
+              onChange={handleRegisterChange}
             />
             <TextField
-            label="Saran"
-            name="saran"
-            value={newReview.saran}
-            onChange={handleChange}
-            fullWidth
-            multiline
-            rows={4}
-            margin="normal"
+              label="Address"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="address"
+              value={registerData.address}
+              onChange={handleRegisterChange}
             />
-            <Button variant="contained" color="primary" onClick={handleSubmitReview}>
-            Submit
+            <TextField
+              label="City"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="city"
+              value={registerData.city}
+              onChange={handleRegisterChange}
+            />
+            <TextField
+              label="Phone Number"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="phoneNumber"
+              value={registerData.phoneNumber}
+              onChange={handleRegisterChange}
+            />
+            <TextField
+              label="Password"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="password"
+              value={registerData.password}
+              onChange={handleRegisterChange}
+            />
+            <Button type="submit" variant="contained" color="primary">
+              Register
             </Button>
-        </form>
-    </>
-  )
-}
+          </form>
+        </Grid>
+
+        {/* Login Form */}
+        <Grid item xs={6}>
+          <Typography variant="h6" gutterBottom>
+            Login
+          </Typography>
+          {/* <form onSubmit={handleLoginSubmit}> */}
+          <form>
+            {/* Username or Email field */}
+            <TextField
+              label="Username or Email"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="usernameOrEmail"
+              value={loginData.usernameOrEmail}
+              onChange={handleLoginChange}
+            />
+            {/* Password field */}
+            <TextField
+              label="Password"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="password"
+              type="password"
+              value={loginData.password}
+              onChange={handleLoginChange}
+            />
+            <Button type="submit" variant="contained" color="primary">
+              Login
+            </Button>
+          </form>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};
 
 export default RegisterLogin;

@@ -18,7 +18,7 @@ import KritikSaran from "./pages/KritikSaran";
 const router = createBrowserRouter([
 	{
 		index: true,
-		element: <Navigate to={"login"} />,
+		element: <Navigate to={"registerLogin"} />,
 	},
 	{
 		path: "registerLogin",
