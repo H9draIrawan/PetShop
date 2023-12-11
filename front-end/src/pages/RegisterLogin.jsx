@@ -40,7 +40,7 @@ const RegisterLogin = () => {
 
   return (
     <Container maxWidth="md" sx={{ mt: 10 }}>
-    <NavLink to={"/Home"} className="text-3xl font-bold">To Main Page </NavLink> <br /><br />
+    <NavLink to={"/Home"} className="text-3xl font-bold">To Main Page 🏡</NavLink> <br /><br />
       <Grid container spacing={2}>
         {/* Register Form */}
         <Grid item xs={6}>
