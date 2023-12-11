@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink, Outlet } from "react-router-dom";
 import { Container, Paper, Grid, Typography, TextField, Button } from '@mui/material';
 
 const RegisterLogin = () => {
@@ -39,7 +40,8 @@ const RegisterLogin = () => {
 
   return (
     <Container maxWidth="md" sx={{ mt: 10 }}>
-      <Grid container spacing={30}>
+    <NavLink to={"/Home"} className="text-3xl font-bold">To Main Page </NavLink> <br /><br />
+      <Grid container spacing={2}>
         {/* Register Form */}
         <Grid item xs={6}>
           <Typography variant="h6" gutterBottom>
