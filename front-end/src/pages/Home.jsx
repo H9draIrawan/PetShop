@@ -44,7 +44,7 @@ const Home = () => {
         <NavigationLink to="Profile" text="Profile" />
         <NavigationLink to="Pet" text="Pet" />
         <NavigationLink to="kritik-saran" text="Kritik dan Saran" />
-        <NavigationLink to="/registerLogin" text="Register/Login" />
+        <NavigationLink to="/registerLogin" text="Register/Login" /> 
       </Typography>
 
       

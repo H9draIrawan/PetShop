@@ -1,3 +1,9 @@
+// use petshop
+// db.createCollection("user");
+// db.createCollection("pet");
+// db.createCollection("order");
+// db.createCollection("krisar");
+
 //user
 // _id w(dari database e)
 // nama

@@ -1,0 +1,20 @@
+[
+    {
+        "nama":"user1",
+        "username":"user1",
+        "password":"123",
+        "email":"user1@gmail.com",
+        "alamat":"rumah si user",
+        "kota":"Surabaya",
+        "noHp":"089937464737"
+    },
+    {
+        "nama":"user2",
+        "username":"user2",
+        "password":"123",
+        "email":"user2@gmail.com",
+        "alamat":"rumah si user",
+        "kota":"Sidoarjo",
+        "noHp":"08993743234"
+    }
+]
