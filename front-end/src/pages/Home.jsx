@@ -23,28 +23,28 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
 const NavigationLink = ({ to, text }) => (
-  <Button
+  <Typography
     component={RouterLink}
     to={to}
-    variant="contained"
-    color="primary"
-    sx={{ mx: 2, borderRadius: 2 }}
+    variant="h6"
+    color="black"
+    sx={{ mx: 2,  textDecoration: 'none', borderRadius: 2 }}
   >
     {text}
-  </Button>
+  </Typography>
 );
 
 const Home = () => {
   return (
     <Box>
-      <Typography variant="h3" fontWeight="bold" sx={{ mb: 2 }}>
-        <RouterLink to="/Home" style={{ textDecoration: 'none', color: 'inherit' }}>
+      <Typography variant="h3" fontWeight="bold" sx={{ mb: 2, ml:2, mt:2 }}>
+        <RouterLink to="/Home" style={{ textDecoration: 'none', color: 'inherit', marginRight: '1rem'}}>
           Pet Shop
         </RouterLink>
-		<NavigationLink to="Profile" text="Profile" />
-		<NavigationLink to="Pet" text="Pet" />
-		<NavigationLink to="kritik-saran" text="Kritik dan Saran" />
-		<NavigationLink to="/registerLogin" text="Register/Login" />
+        <NavigationLink to="Profile" text="Profile" />
+        <NavigationLink to="Pet" text="Pet" />
+        <NavigationLink to="kritik-saran" text="Kritik dan Saran" />
+        <NavigationLink to="/registerLogin" text="Register/Login" />
       </Typography>
 
       
