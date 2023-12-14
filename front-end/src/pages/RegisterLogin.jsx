@@ -34,17 +34,17 @@ const RegisterLogin = () => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
-  // const handleRegisterSubmit = (e) => {
-  //   e.preventDefault();
-  //   // Add logic to send registration data to the server
-  //   console.log('Register:', registerData);
-  // };
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+    // Add logic to send registration data to the server
+    console.log('Register:', registerData);
+  };
 
-  // const handleLoginSubmit = (e) => {
-  //   e.preventDefault();
-  //   // Add logic to send login data to the server
-  //   console.log('Login:', loginData);
-  // };
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    // Add logic to send login data to the server
+    console.log('Login:', loginData);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -57,7 +57,7 @@ const RegisterLogin = () => {
             Register
           </Typography>
           {/* <form onSubmit={handleRegisterSubmit}> */}
-          <form>
+          <form onSubmit={handleRegisterSubmit}>
             {/* Add more form fields as needed */}
             <TextField
               label="Name"
