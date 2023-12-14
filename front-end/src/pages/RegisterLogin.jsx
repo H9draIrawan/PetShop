@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet } from "react-router-dom";
-import { Container, Paper, Grid, Typography, TextField, Button } from '@mui/material';
+import { Container, Paper, Grid, Typography, TextField, Button, ThemeProvider, createMuiTheme } from '@mui/material';
 
 const RegisterLogin = () => {
+  const theme = createMuiTheme({
+    typography: {
+      fontFamily: [
+        'Afacad',
+        'sans-serif',
+      ].join(','),
+    }
+  })
   const [registerData, setRegisterData] = useState({
     name: '',
     username: '',
@@ -39,6 +47,7 @@ const RegisterLogin = () => {
   // };
 
   return (
+    <ThemeProvider theme={theme}>
     <Container maxWidth="md" sx={{ mt: 10 }}>
     <NavLink to={"/Home"} className="text-3xl font-bold">To Main Page 🏡</NavLink> <br /><br />
       <Grid container spacing={2}>
@@ -154,6 +163,7 @@ const RegisterLogin = () => {
         </Grid>
       </Grid>
     </Container>
+    </ThemeProvider>
   );
 };
 
