@@ -142,11 +142,12 @@ const KritikSaran = () => {
             <Grid item key={review.id} xs={12} md={6} lg={4}>
               <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
                 <Typography variant="h6">{review.name}</Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, justifyContent:"center"}}>
-                  <Rating value={review.rating} readOnly precision={0.5} icon={<StarIcon fontSize="inherit" />} />
-                  <Typography variant="body2" sx={{ ml: 1, color: 'text.secondary' }}>
-                    {review.rating}
+                <Box sx={{ display: 'flex',  mb: 1, alignItems:"center"}}>
+                <Typography variant="body1" sx={{ mr: 1, color: 'text.secondary' }}>
+                    {review.rating}.0
                   </Typography>
+                  <Rating value={review.rating} readOnly precision={0.5} icon={<StarIcon fontSize="inherit" />} />
+                  
                 </Box>
                 <Typography variant="body1"> Kritik : {review.kritik}</Typography>
                 <Typography variant="body1"> Saran : {review.saran}</Typography>
