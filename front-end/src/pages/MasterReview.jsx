@@ -105,8 +105,8 @@ TablePaginationActions.propTypes = {
 	rowsPerPage: PropTypes.number.isRequired,
 };
 
-export default function MasterKritikSaran() {
-	const rows = useSelector((state) => state.kritiksaran.reviews);
+export default function MasterReview() {
+	const rows = useSelector((state) => state.review.reviews);
 	const user = useSelector((state) => state.user.users);
 	const order = useSelector((state) => state.order.orders);
 	const [page, setPage] = React.useState(0);

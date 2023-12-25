@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-export const kritiksaranSlice = createSlice({
-	name: "kritiksaran",
+export const reviewSlice = createSlice({
+	name: "review",
 	initialState: {
 		reviews: [
 			{
@@ -22,5 +22,5 @@ export const kritiksaranSlice = createSlice({
 		],
 	},
 });
-export const {} = kritiksaranSlice.actions;
-export default kritiksaranSlice.reducer;
+export const {} = reviewSlice.actions;
+export default reviewSlice.reducer;

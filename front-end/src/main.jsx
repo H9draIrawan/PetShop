@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import Store from "./apps/Store";
+import Store from "./apps/store";
 import {
 	Navigate,
 	RouterProvider,
@@ -22,7 +22,7 @@ import Master from "./pages/Master";
 import MasterUser from "./pages/MasterUser";
 import MasterPet from "./pages/MasterPet";
 import MasterOrder from "./pages/MasterOrder";
-import MasterKritikSaran from "./pages/MasterKritikSaran";
+import MasterReview from "./pages/MasterReview";
 import MasterTransaksi from "./pages/MasterTransaksi";
 
 const router = createBrowserRouter([
@@ -87,19 +87,19 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "pet",
-				element : <MasterPet />
+				element: <MasterPet />,
 			},
 			{
 				path: "order",
-				element : <MasterOrder />
+				element: <MasterOrder />,
 			},
 			{
 				path: "kritiksaran",
-				element : <MasterKritikSaran />
+				element: <MasterReview />,
 			},
 			{
 				path: "transaksi",
-				element : <MasterTransaksi />
+				element: <MasterTransaksi />,
 			},
 		],
 	},

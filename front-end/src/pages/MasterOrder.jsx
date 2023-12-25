@@ -133,6 +133,7 @@ export default function MasterOrder() {
 						<TableCell sx={{ fontWeight: "bold" }}>Nama Pet</TableCell>
 						<TableCell sx={{ fontWeight: "bold" }}>Jenis</TableCell>
 						<TableCell sx={{ fontWeight: "bold" }}>Kategori</TableCell>
+						<TableCell sx={{ fontWeight: "bold" }}>Harga</TableCell>
 						<TableCell sx={{ fontWeight: "bold" }}>Tanggal</TableCell>
 					</TableRow>
 				</TableHead>
@@ -152,7 +153,7 @@ export default function MasterOrder() {
 								{pet.find((item) => item._id === row.id_pet)?.jenis}
 							</TableCell>
 							<TableCell>{row.kategori}</TableCell>
-
+							<TableCell>Rp {row.harga.toLocaleString()}</TableCell>
 							<TableCell>
 								{Date(row.tanggal).toString().split(" ").slice(1, 5).join(" ")}
 							</TableCell>

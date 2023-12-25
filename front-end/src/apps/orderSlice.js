@@ -8,6 +8,7 @@ export const orderSlice = createSlice({
 				id_user: 1,
 				id_pet: 1,
 				kategori: "grooming",
+				harga : 100000,
 				tanggal: Date.now(),
 			},
 			{
@@ -15,6 +16,7 @@ export const orderSlice = createSlice({
 				id_user: 2,
 				id_pet: 2,
 				kategori: "grooming",
+				harga : 100000,
 				tanggal: Date.now(),
 			},
 		],
