@@ -103,8 +103,6 @@ TablePaginationActions.propTypes = {
 
 export default function MasterOrder() {
 	const rows = useSelector((state) => state.order.orders);
-	const user = useSelector((state) => state.user.users);
-	const pet = useSelector((state) => state.pet.pets);
 
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -143,15 +141,9 @@ export default function MasterOrder() {
 						: rows
 					).map((row) => (
 						<TableRow key={row._id}>
-							<TableCell>
-								{user.find((item) => item._id === row.id_user)?.nama}
-							</TableCell>
-							<TableCell>
-								{pet.find((item) => item._id === row.id_pet)?.nama}
-							</TableCell>
-							<TableCell>
-								{pet.find((item) => item._id === row.id_pet)?.jenis}
-							</TableCell>
+							<TableCell>{row.user.nama}</TableCell>
+							<TableCell>{row.pet.nama}</TableCell>
+							<TableCell>{row.pet.jenis}</TableCell>
 							<TableCell>{row.kategori}</TableCell>
 							<TableCell>Rp {row.harga.toLocaleString()}</TableCell>
 							<TableCell>

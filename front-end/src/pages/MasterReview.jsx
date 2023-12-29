@@ -107,8 +107,7 @@ TablePaginationActions.propTypes = {
 
 export default function MasterReview() {
 	const rows = useSelector((state) => state.review.reviews);
-	const user = useSelector((state) => state.user.users);
-	const order = useSelector((state) => state.order.orders);
+
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -145,12 +144,8 @@ export default function MasterReview() {
 						: rows
 					).map((row) => (
 						<TableRow key={row._id}>
-							<TableCell>
-								{user.find((item) => item._id === row.id_user)?.nama}
-							</TableCell>
-							<TableCell>
-								{order.find((item) => item._id === row.id_order)?.kategori}
-							</TableCell>
+							<TableCell>{row.user.nama}</TableCell>
+							<TableCell>{row.order.kategori}</TableCell>
 							<TableCell>
 								{Array(row.rating).fill(<Star color="warning" />)}
 							</TableCell>

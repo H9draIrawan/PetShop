@@ -103,7 +103,6 @@ TablePaginationActions.propTypes = {
 
 export default function MasterPet() {
 	const rows = useSelector((state) => state.pet.pets);
-	const user = useSelector((state) => state.user.users);
 
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -149,9 +148,7 @@ export default function MasterPet() {
 							<TableCell>{row.jenis}</TableCell>
 							<TableCell>{row.ras}</TableCell>
 							<TableCell>{row.umur}</TableCell>
-							<TableCell>
-								{user.find((item) => item._id === row.id_user)?.nama}
-							</TableCell>
+							<TableCell>{row.user.nama}</TableCell>
 							<TableCell>
 								<Button>
 									<Edit />

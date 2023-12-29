@@ -103,7 +103,6 @@ TablePaginationActions.propTypes = {
 
 export default function MasterUser() {
 	const rows = useSelector((state) => state.user.users);
-
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -143,8 +142,12 @@ export default function MasterUser() {
 						: rows
 					).map((row) => (
 						<TableRow key={row._id}>
+							{console.log()}
 							<TableCell>
-								<img src={row.profile} width={200} />
+								<img
+									src={import.meta.env.VITE_API_URL + "/static/" + row.profile}
+									width={200}
+								/>
 							</TableCell>
 							<TableCell>{row.nama}</TableCell>
 							<TableCell>{row.username}</TableCell>

@@ -104,7 +104,7 @@ const Home = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1, mx:3 }}>
               <RouterLink to="/Home" style={{ textDecoration: 'none', color: 'inherit', marginRight: '1rem', fontSize: "30px"}}>Pet Shop</RouterLink>
               <NavigationLink to="Profile" text="Profile" />
-              {/* <NavigationLink to="Pet" text="Pet" /> */}
+              <NavigationLink to="Pet" text="Pet" />
               <NavigationLink to="kritik-saran" text="Kritik dan Saran" />
             </Typography>
             <RouterLink to="/registerLogin" color='inherit'>Login</RouterLink>
