@@ -30,7 +30,10 @@ import {
 	Edit,
 } from "@mui/icons-material";
 
-import { useSelector } from "react-redux";
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ordersLoaded } from "../apps/orderSlice";
 
 function TablePaginationActions(props) {
 	const theme = useTheme();
@@ -102,6 +105,13 @@ TablePaginationActions.propTypes = {
 };
 
 export default function MasterOrder() {
+	const dispatch = useDispatch();
+	useEffect(() => {
+		axios.get("http://localhost:3000/api/order").then(function (response) {
+			dispatch(ordersLoaded(response.data));
+			console.log(response.data);
+		});
+	}, []);
 	const rows = useSelector((state) => state.order.orders);
 
 	const [page, setPage] = React.useState(0);
@@ -127,12 +137,10 @@ export default function MasterOrder() {
 			<Table>
 				<TableHead>
 					<TableRow>
-						<TableCell sx={{ fontWeight: "bold" }}>Pemilik</TableCell>
-						<TableCell sx={{ fontWeight: "bold" }}>Nama Pet</TableCell>
-						<TableCell sx={{ fontWeight: "bold" }}>Jenis</TableCell>
-						<TableCell sx={{ fontWeight: "bold" }}>Kategori</TableCell>
-						<TableCell sx={{ fontWeight: "bold" }}>Harga</TableCell>
+						<TableCell sx={{ fontWeight: "bold" }}>Pemesan</TableCell>
+						<TableCell sx={{ fontWeight: "bold" }}>Total</TableCell>
 						<TableCell sx={{ fontWeight: "bold" }}>Tanggal</TableCell>
+						<TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -142,12 +150,42 @@ export default function MasterOrder() {
 					).map((row) => (
 						<TableRow key={row._id}>
 							<TableCell>{row.user.nama}</TableCell>
-							<TableCell>{row.pet.nama}</TableCell>
-							<TableCell>{row.pet.jenis}</TableCell>
-							<TableCell>{row.kategori}</TableCell>
-							<TableCell>Rp {row.harga.toLocaleString()}</TableCell>
 							<TableCell>
-								{Date(row.tanggal).toString().split(" ").slice(1, 5).join(" ")}
+								{row.total.toLocaleString("id-ID", {
+									style: "currency",
+									currency: "IDR",
+								})}
+							</TableCell>
+							<TableCell>
+								{new Date(row.tanggal).toLocaleDateString("id-ID", {
+									day: "numeric",
+									month: "short",
+									year: "numeric",
+								}) +
+									" " +
+									new Date(row.tanggal).toLocaleTimeString("en-GB")}
+							</TableCell>
+							<TableCell>
+								{row.status ? (
+									<Typography color="green" sx={{ fontWeight: "bold" }}>
+										DONE
+									</Typography>
+								) : (
+									<Typography color="red" sx={{ fontWeight: "bold" }}>
+										WAIT
+									</Typography>
+								)}
+							</TableCell>
+							<TableCell>
+								<Button>
+									<Edit />
+								</Button>
+								<Button>
+									<Delete />
+								</Button>
+								<Button>
+									<Block />
+								</Button>
 							</TableCell>
 						</TableRow>
 					))}

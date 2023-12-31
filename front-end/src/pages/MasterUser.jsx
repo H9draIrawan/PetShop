@@ -15,6 +15,7 @@ import {
 	TableHead,
 	Typography,
 	Button,
+	TextField,
 } from "@mui/material";
 
 import {
@@ -23,14 +24,24 @@ import {
 	KeyboardArrowRight,
 	LastPage,
 	Delete,
-	Cancel,
-	CircleSharp,
-	CircleNotifications,
 	Block,
 	Edit,
+	CheckCircle,
 } from "@mui/icons-material";
 
-import { useSelector } from "react-redux";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	usersLoaded,
+	usersUpdated,
+	usersDeleted,
+	usersBanned,
+	userUnbanned,
+} from "../apps/userSlice";
+import { useForm } from "react-hook-form";
+import { joiResolver } from "@hookform/resolvers/joi";
+import Joi from "joi";
 
 function TablePaginationActions(props) {
 	const theme = useTheme();
@@ -102,9 +113,20 @@ TablePaginationActions.propTypes = {
 };
 
 export default function MasterUser() {
+	const dispatch = useDispatch();
+	useEffect(() => {
+		axios.get("http://localhost:3000/api/user").then(function (response) {
+			dispatch(usersLoaded(response.data));
+			console.log(response.data);
+		});
+	});
 	const rows = useSelector((state) => state.user.users);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [EditUser, setEditUser] = useState(false);
+	const [User, setUser] = useState(null);
+	const [Image, setImage] = useState();
+	const [SaveImage, setSaveImage] = useState();
 
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -118,87 +140,224 @@ export default function MasterUser() {
 		setPage(0);
 	};
 
-	return (
-		<TableContainer
-			component={Paper}
-			sx={{ overflowX: "auto", maxWidth: 1000, minWidth: 1000, mt: 3 }}
-		>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableCell sx={{ fontWeight: "bold" }}>Profile</TableCell>
-						<TableCell sx={{ fontWeight: "bold" }}>Nama</TableCell>
-						<TableCell sx={{ fontWeight: "bold" }}>Username</TableCell>
-						<TableCell sx={{ fontWeight: "bold" }}>Email</TableCell>
-						<TableCell sx={{ fontWeight: "bold" }}>Nomer Hp</TableCell>
-						<TableCell sx={{ fontWeight: "bold" }}>Kota</TableCell>
-						<TableCell sx={{ fontWeight: "bold" }}>Alamat</TableCell>
-						<TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{(rowsPerPage > 0
-						? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-						: rows
-					).map((row) => (
-						<TableRow key={row._id}>
-							{console.log()}
-							<TableCell>
-								<img
-									src={import.meta.env.VITE_API_URL + "/static/" + row.profile}
-									width={200}
-								/>
-							</TableCell>
-							<TableCell>{row.nama}</TableCell>
-							<TableCell>{row.username}</TableCell>
-							<TableCell>{row.email}</TableCell>
-							<TableCell>{row.no_hp}</TableCell>
-							<TableCell>{row.kota}</TableCell>
-							<TableCell>{row.alamat}</TableCell>
-							<TableCell>
-								{row.status ? (
-									<Typography color="green" sx={{ fontWeight: "bold" }}>
-										ACTIVE
-									</Typography>
-								) : (
-									<Typography color="red" sx={{ fontWeight: "bold" }}>
-										NONACTIVE
-									</Typography>
-								)}
-							</TableCell>
-							<TableCell>
-								<Button>
-									<Edit />
-								</Button>
-								<Button>
-									<Delete />
-								</Button>
-								<Button>
-									<Block />
-								</Button>
-							</TableCell>
+	const onSubmit = (data) => {
+		data.profile = SaveImage;
+		dispatch(usersUpdated(data));
+		setEditUser(false);
+		setUser(null);
+	};
+
+	const Schema = Joi.object({
+		_id: Joi.string().empty(),
+		nama: Joi.string().empty(),
+		username: Joi.string().empty(),
+		email: Joi.string().empty(),
+		no_hp: Joi.string().empty(),
+		alamat: Joi.string().empty(),
+		kota: Joi.string().empty(),
+		password: Joi.string().empty(),
+		confirm_password: Joi.ref("password"),
+	});
+	const { register, handleSubmit } = useForm({
+		resolver: joiResolver(Schema),
+		values: {
+			_id: User?._id,
+			nama: User?.nama,
+			username: User?.username,
+			email: User?.email,
+			alamat: User?.alamat,
+			kota: User?.kota,
+			no_hp: User?.no_hp,
+		},
+	});
+
+	if (!EditUser) {
+		return (
+			<TableContainer
+				component={Paper}
+				sx={{ overflowX: "auto", maxWidth: 1000, minWidth: 1000, mt: 3 }}
+			>
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell sx={{ fontWeight: "bold" }}>Profile</TableCell>
+							<TableCell sx={{ fontWeight: "bold" }}>Nama</TableCell>
+							<TableCell sx={{ fontWeight: "bold" }}>Username</TableCell>
+							<TableCell sx={{ fontWeight: "bold" }}>Email</TableCell>
+							<TableCell sx={{ fontWeight: "bold" }}>Nomer Hp</TableCell>
+							<TableCell sx={{ fontWeight: "bold" }}>Kota</TableCell>
+							<TableCell sx={{ fontWeight: "bold" }}>Alamat</TableCell>
+							<TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
 						</TableRow>
-					))}
-					{emptyRows > 0 && (
-						<TableRow style={{ height: 53 * emptyRows }}>
-							<TableCell colSpan={6} />
+					</TableHead>
+					<TableBody>
+						{(rowsPerPage > 0
+							? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+							: rows
+						).map((row) => (
+							<TableRow key={row._id}>
+								<TableCell>
+									<img
+										src={
+											import.meta.env.VITE_API_URL + "/static/" + row.profile
+										}
+										width={200}
+									/>
+								</TableCell>
+								<TableCell>{row.nama}</TableCell>
+								<TableCell>{row.username}</TableCell>
+								<TableCell>{row.email}</TableCell>
+								<TableCell>{row.no_hp}</TableCell>
+								<TableCell>{row.kota}</TableCell>
+								<TableCell>{row.alamat}</TableCell>
+								<TableCell>
+									{row.status == "active" ? (
+										<Typography color="green" sx={{ fontWeight: "bold" }}>
+											ACTIVE
+										</Typography>
+									) : row.status == "nonactive" ? (
+										<Typography color="red" sx={{ fontWeight: "bold" }}>
+											NONACTIVE
+										</Typography>
+									) : (
+										<Typography color="red" sx={{ fontWeight: "bold" }}>
+											BANNED
+										</Typography>
+									)}
+								</TableCell>
+								<TableCell>
+									<Button
+										onClick={() => {
+											setEditUser(true);
+											setUser(row);
+										}}
+									>
+										<Edit />
+									</Button>
+									{row.status == "nonactive" ||
+										(row.status == "banned" && (
+											<Button>
+												<Delete />
+											</Button>
+										))}
+									{row.status == "active" ? (
+										<Button onClick={() => dispatch(usersBanned(row._id))}>
+											<Block />
+										</Button>
+									) : (
+										<Button onClick={() => dispatch(userUnbanned(row._id))}>
+											<CheckCircle />
+										</Button>
+									)}
+								</TableCell>
+							</TableRow>
+						))}
+						{emptyRows > 0 && (
+							<TableRow style={{ height: 53 * emptyRows }}>
+								<TableCell colSpan={6} />
+							</TableRow>
+						)}
+					</TableBody>
+					<TableFooter>
+						<TableRow>
+							<TablePagination
+								rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+								count={rows.length}
+								rowsPerPage={rowsPerPage}
+								page={page}
+								onPageChange={handleChangePage}
+								onRowsPerPageChange={handleChangeRowsPerPage}
+								ActionsComponent={TablePaginationActions}
+							/>
 						</TableRow>
-					)}
-				</TableBody>
-				<TableFooter>
-					<TableRow>
-						<TablePagination
-							rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-							count={rows.length}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							onPageChange={handleChangePage}
-							onRowsPerPageChange={handleChangeRowsPerPage}
-							ActionsComponent={TablePaginationActions}
-						/>
-					</TableRow>
-				</TableFooter>
-			</Table>
-		</TableContainer>
-	);
+					</TableFooter>
+				</Table>
+			</TableContainer>
+		);
+	} else {
+		return (
+			<Box component="form" sx={{ mt: 3 }} onSubmit={handleSubmit(onSubmit)}>
+				<TextField
+					sx={{ width: 475, m: 1 }}
+					type="text"
+					label="Nama"
+					{...register("nama")}
+				/>
+				<TextField
+					sx={{ width: 475, m: 1 }}
+					type="text"
+					label="Username"
+					{...register("username")}
+				/>
+				<br />
+				<TextField
+					sx={{ width: 475, m: 1 }}
+					type="email"
+					label="Email"
+					{...register("email")}
+				/>
+				<TextField
+					sx={{ width: 475, m: 1 }}
+					type="text"
+					label="No HP"
+					{...register("no_hp")}
+				/>
+				<br />
+				<TextField
+					sx={{ width: 475, m: 1 }}
+					type="text"
+					label="Alamat"
+					{...register("alamat")}
+				/>
+				<TextField
+					sx={{ width: 475, m: 1 }}
+					type="text"
+					label="Kota"
+					{...register("kota")}
+				/>
+				<br />
+				<img src={Image} style={{ width: 100, margin: 10 }} />
+				<TextField
+					sx={{ width: 475, m: 1 }}
+					type="file"
+					onChange={(event) => {
+						setImage(URL.createObjectURL(event.target.files[0]));
+						setSaveImage(event.target.files[0]);
+					}}
+				/>
+				<br />
+				<TextField
+					sx={{ width: 475, m: 1 }}
+					type="password"
+					label="Password"
+					{...register("password")}
+				/>
+				<TextField
+					sx={{ width: 475, m: 1 }}
+					type="password"
+					label="Confirm Password"
+					{...register("confirm_password")}
+				/>
+				<br />
+				<Button
+					type="submit"
+					{...register("_id")}
+					variant="contained"
+					sx={{ m: 1 }}
+				>
+					Edit
+				</Button>
+				<Button
+					onClick={() => {
+						setEditUser(false);
+						setUser(null);
+					}}
+					variant="contained"
+					sx={{ m: 1 }}
+				>
+					Cancel
+				</Button>
+			</Box>
+		);
+	}
 }

@@ -34,7 +34,10 @@ import {
 	StarBorderPurple500,
 } from "@mui/icons-material";
 
-import { useSelector } from "react-redux";
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { reviewsLoaded } from "../apps/reviewSlice";
 
 function TablePaginationActions(props) {
 	const theme = useTheme();
@@ -106,6 +109,13 @@ TablePaginationActions.propTypes = {
 };
 
 export default function MasterReview() {
+	const dispatch = useDispatch();
+	useEffect(() => {
+		axios.get("http://localhost:3000/api/review").then(function (response) {
+			dispatch(reviewsLoaded(response.data));
+			console.log(response.data);
+		});
+	}, []);
 	const rows = useSelector((state) => state.review.reviews);
 
 	const [page, setPage] = React.useState(0);
@@ -132,7 +142,6 @@ export default function MasterReview() {
 				<TableHead>
 					<TableRow>
 						<TableCell sx={{ fontWeight: "bold" }}>Nama</TableCell>
-						<TableCell sx={{ fontWeight: "bold" }}>Kategori</TableCell>
 						<TableCell sx={{ fontWeight: "bold" }}>Rating</TableCell>
 						<TableCell sx={{ fontWeight: "bold" }}>Kritik</TableCell>
 						<TableCell sx={{ fontWeight: "bold" }}>Saran</TableCell>
@@ -145,7 +154,6 @@ export default function MasterReview() {
 					).map((row) => (
 						<TableRow key={row._id}>
 							<TableCell>{row.user.nama}</TableCell>
-							<TableCell>{row.order.kategori}</TableCell>
 							<TableCell>
 								{Array(row.rating).fill(<Star color="warning" />)}
 							</TableCell>

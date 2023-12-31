@@ -24,8 +24,8 @@ import {
 } from "@mui/icons-material";
 
 import { NavLink, Outlet } from "react-router-dom";
-import { useEffect } from "react";
 import axios from "axios";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { usersLoaded } from "../apps/userSlice";
 import { petsLoaded } from "../apps/petSlice";

@@ -30,7 +30,10 @@ import {
 	Edit,
 } from "@mui/icons-material";
 
-import { useSelector } from "react-redux";
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { petsLoaded } from "../apps/petSlice";
 
 function TablePaginationActions(props) {
 	const theme = useTheme();
@@ -102,6 +105,13 @@ TablePaginationActions.propTypes = {
 };
 
 export default function MasterPet() {
+	const dispatch = useDispatch();
+	useEffect(() => {
+		axios.get("http://localhost:3000/api/pet").then(function (response) {
+			dispatch(petsLoaded(response.data));
+			console.log(response.data);
+		});
+	}, []);
 	const rows = useSelector((state) => state.pet.pets);
 
 	const [page, setPage] = React.useState(0);
@@ -142,7 +152,10 @@ export default function MasterPet() {
 					).map((row) => (
 						<TableRow key={row._id}>
 							<TableCell sx={{ flex: 1 }}>
-								<img src={row.profile} width={100} />
+								<img
+									src={import.meta.env.VITE_API_URL + "/static/" + row.profile}
+									width={100}
+								/>
 							</TableCell>
 							<TableCell>{row.nama}</TableCell>
 							<TableCell>{row.jenis}</TableCell>
