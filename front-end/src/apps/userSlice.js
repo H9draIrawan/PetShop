@@ -10,17 +10,19 @@ export const userSlice = createSlice({
 			state.users = action.payload;
 		},
 		usersUpdated: (state, action) => {
+			axios.put(`http://localhost:3000/api/user/${action.payload._id}`, {
+				nama: action.payload.nama,
+				username: action.payload.username,
+				email: action.payload.email,
+				password: action.payload.password,
+				alamat: action.payload.alamat,
+				kota: action.payload.kota,
+				no_hp: action.payload.no_hp,
+			});
 			const formData = new FormData();
-			formData.append("nama", action.payload.nama);
-			formData.append("username", action.payload.username);
-			formData.append("email", action.payload.email);
-			formData.append("password", action.payload.password);
-			formData.append("alamat", action.payload.alamat);
-			formData.append("kota", action.payload.kota);
-			formData.append("no_hp", action.payload.no_hp);
 			formData.append("profile", action.payload.profile);
-			axios.put(
-				`http://localhost:3000/api/user/${action.payload._id}`,
+			axios.post(
+				`http://localhost:3000/api/user/profile/${action.payload._id}`,
 				formData,
 			);
 		},
@@ -31,12 +33,15 @@ export const userSlice = createSlice({
 			axios.put(`http://localhost:3000/api/user/banned/${action.payload}`);
 		},
 		userUnbanned: (state, action) => {
-			axios.put(
-				`http://localhost:3000/api/user/unbanned/${action.payload}`,
-			);
-		}
+			axios.put(`http://localhost:3000/api/user/unbanned/${action.payload}`);
+		},
 	},
 });
-export const { usersLoaded, usersUpdated, usersDeleted, usersBanned,userUnbanned } =
-	userSlice.actions;
+export const {
+	usersLoaded,
+	usersUpdated,
+	usersDeleted,
+	usersBanned,
+	userUnbanned,
+} = userSlice.actions;
 export default userSlice.reducer;

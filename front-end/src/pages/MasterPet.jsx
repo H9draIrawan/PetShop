@@ -111,7 +111,7 @@ export default function MasterPet() {
 			dispatch(petsLoaded(response.data));
 			console.log(response.data);
 		});
-	}, []);
+	});
 	const rows = useSelector((state) => state.pet.pets);
 
 	const [page, setPage] = React.useState(0);

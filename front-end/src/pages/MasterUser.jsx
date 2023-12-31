@@ -236,7 +236,7 @@ export default function MasterUser() {
 									</Button>
 									{row.status == "nonactive" ||
 										(row.status == "banned" && (
-											<Button>
+											<Button onClick={() => dispatch(usersDeleted(row._id))}>
 												<Delete />
 											</Button>
 										))}

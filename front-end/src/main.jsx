@@ -10,11 +10,8 @@ import {
 
 import RegisterLogin from "./pages/RegisterLogin";
 import Home from "./pages/Home";
-import AddPet from "./components/AddPet";
-import DeletePet from "./components/DeletePet";
 import Admin from "./pages/Admin";
 import Pet from "./pages/Pet";
-import UpdatePet from "./components/UpdatePet";
 import Profile from "./pages/Profile";
 import KritikSaran from "./pages/KritikSaran";
 import Dashboard from "./pages/Dashboard";
@@ -39,22 +36,8 @@ const router = createBrowserRouter([
 		element: <Home />,
 		children: [
 			{
-				path: "Pet",
+				path: "pet",
 				element: <Pet />,
-				children: [
-					{
-						path: "Add",
-						element: <AddPet />,
-					},
-					{
-						path: "Delete",
-						element: <DeletePet />,
-					},
-					{
-						path: "Update",
-						element: <UpdatePet />,
-					},
-				],
 			},
 			{
 				path: "Profile",
