@@ -23,9 +23,6 @@ import {
 	KeyboardArrowRight,
 	LastPage,
 	Delete,
-	Cancel,
-	CircleSharp,
-	CircleNotifications,
 	Block,
 	Edit,
 } from "@mui/icons-material";

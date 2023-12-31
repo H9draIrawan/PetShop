@@ -21,6 +21,7 @@ import MasterPet from "./pages/MasterPet";
 import MasterOrder from "./pages/MasterOrder";
 import MasterReview from "./pages/MasterReview";
 import MasterTransaksi from "./pages/MasterTransaksi";
+import Order from "./pages/Order";
 
 const router = createBrowserRouter([
 	{
@@ -36,10 +37,6 @@ const router = createBrowserRouter([
 		element: <Home />,
 		children: [
 			{
-				path: "pet",
-				element: <Pet />,
-			},
-			{
 				path: "Profile",
 				element: <Profile />,
 				children: [
@@ -48,6 +45,14 @@ const router = createBrowserRouter([
 						element: <Dashboard />,
 					},
 				],
+			},
+			{
+				path: "pet",
+				element: <Pet />,
+			},
+			{
+				path: "order",
+				element: <Order />,
 			},
 			{
 				path: "kritik-saran",
