@@ -20,36 +20,9 @@ import {
 	AccessTimeFilled,
 } from "@mui/icons-material";
 
-import axios from "axios";
 import { NavLink, Outlet } from "react-router-dom";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { usersLoaded } from "../apps/userSlice";
-import { petsLoaded } from "../apps/petSlice";
-import { ordersLoaded } from "../apps/orderSlice";
-import { reviewsLoaded } from "../apps/reviewSlice";
 
 export default function Admin() {
-	const dispatch = useDispatch();
-	useEffect(() => {
-		axios.get("http://localhost:3000/api/user").then(function (response) {
-			dispatch(usersLoaded(response.data));
-			console.log(response.data);
-		});
-		axios.get("http://localhost:3000/api/pet").then(function (response) {
-			dispatch(petsLoaded(response.data));
-			console.log(response.data);
-		});
-		axios.get("http://localhost:3000/api/order").then(function (response) {
-			dispatch(ordersLoaded(response.data));
-			console.log(response.data);
-		});
-		axios.get("http://localhost:3000/api/review").then(function (response) {
-			dispatch(reviewsLoaded(response.data));
-			console.log(response.data);
-		});
-	});
-
 	return (
 		<Stack spacing={7}>
 			<AppBar>

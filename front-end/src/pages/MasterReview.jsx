@@ -111,7 +111,7 @@ TablePaginationActions.propTypes = {
 export default function MasterReview() {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		axios.get("http://localhost:3000/api/review").then(function (response) {
+		axios.get(`${import.meta.env.VITE_API_URL}/api/review`).then(function (response) {
 			dispatch(reviewsLoaded(response.data));
 			console.log(response.data);
 		});

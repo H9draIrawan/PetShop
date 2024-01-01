@@ -10,7 +10,7 @@ export const transactionSlice = createSlice({
 			state.transactions = action.payload;
 		},
 		transactionsCreated: (state, action) => {
-			axios.post("http://localhost:3000/api/transaction", {
+			axios.post(`${import.meta.env.VITE_API_URL}/api/transaction`, {
 				id_user: action.payload.user._id,
 				id_order: action.payload._id,
 				nama: action.payload.user.nama,
@@ -23,7 +23,7 @@ export const transactionSlice = createSlice({
 		},
 		transactionsCanceled: (state, action) => {
 			axios.put(
-				"http://localhost:3000/api/transaction/cancel/" + action.payload,
+				`${import.meta.env.VITE_API_URL}/api/transaction/cancel/` + action.payload,
 			);
 		},
 	},

@@ -16,10 +16,10 @@ export const petSlice = createSlice({
 			formData.append("umur", action.payload.umur);
 			formData.append("jenis", action.payload.jenis);
 			formData.append("ras", action.payload.ras);
-			axios.post("http://localhost:3000/api/pet", formData);
+			axios.post(`${import.meta.env.VITE_API_URL}/api/pet`, formData);
 		},
 		petsUpdated: (state, action) => {
-			axios.put("http://localhost:3000/api/pet/" + action.payload._id, {
+			axios.put(`${import.meta.env.VITE_API_URL}/api/pet/` + action.payload._id, {
 				nama: action.payload.nama,
 				umur: action.payload.umur,
 				jenis: action.payload.jenis,
@@ -28,15 +28,15 @@ export const petSlice = createSlice({
 			const formData = new FormData();
 			formData.append("profile", action.payload.profile);
 			axios.put(
-				"http://localhost:3000/api/pet/profile/" + action.payload._id,
+				`${import.meta.env.VITE_API_URL}/api/pet/profile/` + action.payload._id,
 				formData,
 			);
 		},
 		petsBanned: (state, action) => {
-			axios.put("http://localhost:3000/api/pet/banned/" + action.payload);
+			axios.put(`${import.meta.env.VITE_API_URL}/api/pet/banned/` + action.payload);
 		},
 		petsUnbanned: (state, action) => {
-			axios.put("http://localhost:3000/api/pet/unbanned/" + action.payload);
+			axios.put(`${import.meta.env.VITE_API_URL}/api/pet/unbanned/` + action.payload);
 		},
 	},
 });

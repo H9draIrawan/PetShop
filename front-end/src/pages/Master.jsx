@@ -14,25 +14,27 @@ import { ordersLoaded } from "../apps/orderSlice";
 export default function Master() {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		axios.get("http://localhost:3000/api/user").then(function (response) {
-			dispatch(usersLoaded(response.data));
-			console.log(response.data);
-		});
-		axios.get("http://localhost:3000/api/pet").then(function (response) {
+		axios
+			.get(`${import.meta.env.VITE_API_URL}/api/user`)
+			.then(function (response) {
+				dispatch(usersLoaded(response.data));
+				console.log(response.data);
+			});
+		axios.get(`${import.meta.env.VITE_API_URL}/api/pet`).then(function (response) {
 			dispatch(petsLoaded(response.data));
 			console.log(response.data);
 		});
-		axios.get("http://localhost:3000/api/order").then(function (response) {
+		axios.get(`${import.meta.env.VITE_API_URL}/api/order`).then(function (response) {
 			dispatch(ordersLoaded(response.data));
 			console.log(response.data);
 		});
 		axios
-			.get("http://localhost:3000/api/transaction")
+			.get(`${import.meta.env.VITE_API_URL}/api/transaction`)
 			.then(function (response) {
 				dispatch(transactionsLoaded(response.data));
 				console.log(response.data);
 			});
-		axios.get("http://localhost:3000/api/review").then(function (response) {
+		axios.get(`${import.meta.env.VITE_API_URL}/api/review`).then(function (response) {
 			dispatch(reviewsLoaded(response.data));
 			console.log(response.data);
 		});

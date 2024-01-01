@@ -122,7 +122,7 @@ export default function MasterTransaksi() {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		axios
-			.get("http://localhost:3000/api/transaction")
+			.get(`${import.meta.env.VITE_API_URL}/api/transaction`)
 			.then(function (response) {
 				dispatch(transactionsLoaded(response.data));
 				console.log(response.data);

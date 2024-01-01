@@ -120,7 +120,7 @@ TablePaginationActions.propTypes = {
 export default function MasterPet() {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		axios.get("http://localhost:3000/api/pet").then(function (response) {
+		axios.get(`${import.meta.env.VITE_API_URL}/api/pet`).then(function (response) {
 			dispatch(petsLoaded(response.data));
 			console.log(response.data);
 		});

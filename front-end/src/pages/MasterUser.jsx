@@ -115,7 +115,7 @@ TablePaginationActions.propTypes = {
 export default function MasterUser() {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		axios.get("http://localhost:3000/api/user").then(function (response) {
+		axios.get(`${import.meta.env.VITE_API_URL}/api/user`).then(function (response) {
 			dispatch(usersLoaded(response.data));
 			console.log(response.data);
 		});

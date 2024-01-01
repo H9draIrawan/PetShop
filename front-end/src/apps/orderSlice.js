@@ -10,22 +10,22 @@ export const orderSlice = createSlice({
 			state.orders = action.payload;
 		},
 		ordersAdded: (state, action) => {
-			axios.post("http://localhost:3000/api/order", {
+			axios.post(`${import.meta.env.VITE_API_URL}/api/order`, {
 				details: action.payload.details,
 				tanggal: action.payload.tanggal,
 			});
 		},
 		ordersDeleted: (state, action) => {
-			axios.delete("http://localhost:3000/api/order/" + action.payload);
+			axios.delete(`${import.meta.env.VITE_API_URL}/api/order/` + action.payload);
 		},
 		ordersUpdated: (state, action) => {
-			axios.put("http://localhost:3000/api/order/" + action.payload._id, {
+			axios.put(`${import.meta.env.VITE_API_URL}/api/order/` + action.payload._id, {
 				details: action.payload.details,
 				tanggal: action.payload.tanggal,
 			});
 		},
 		ordersFinished: (state, action) => {
-			axios.put("http://localhost:3000/api/order/finish/" + action.payload)
+			axios.put(`${import.meta.env.VITE_API_URL}/order/finish/` + action.payload)
 		}
 	},
 });

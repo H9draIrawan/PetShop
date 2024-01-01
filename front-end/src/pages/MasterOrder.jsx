@@ -121,11 +121,11 @@ TablePaginationActions.propTypes = {
 export default function MasterOrder() {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		axios.get("http://localhost:3000/api/order").then(function (response) {
+		axios.get(`${import.meta.env.VITE_API_URL}/api/order`).then(function (response) {
 			dispatch(ordersLoaded(response.data));
 			console.log(response.data);
 		});
-		axios.get("http://localhost:3000/api/pet").then(function (response) {
+		axios.get(`${import.meta.env.VITE_API_URL}/api/pet`).then(function (response) {
 			dispatch(petsLoaded(response.data));
 			console.log(response.data);
 		});
