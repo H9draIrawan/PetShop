@@ -28,15 +28,18 @@ export const petSlice = createSlice({
 			const formData = new FormData();
 			formData.append("profile", action.payload.profile);
 			axios.put(
-				"http://localhost:3000/api/pet/profile" + action.payload._id,
+				"http://localhost:3000/api/pet/profile/" + action.payload._id,
 				formData,
 			);
 		},
-		petsDeleted: (state, action) => {
-			axios.delete("http://localhost:3000/api/pet/" + action.payload);
+		petsBanned: (state, action) => {
+			axios.put("http://localhost:3000/api/pet/banned/" + action.payload);
+		},
+		petsUnbanned: (state, action) => {
+			axios.put("http://localhost:3000/api/pet/unbanned/" + action.payload);
 		},
 	},
 });
-export const { petsLoaded, petsAdded, petsUpdated, petsDeleted } =
+export const { petsLoaded, petsAdded, petsUpdated, petsBanned, petsUnbanned } =
 	petSlice.actions;
 export default petSlice.reducer;

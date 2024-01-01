@@ -1,18 +1,15 @@
 import {
 	AppBar,
-	Collapse,
 	List,
 	ListItemButton,
 	ListItemIcon,
 	ListItemText,
-	ListSubheader,
 	Toolbar,
 	Typography,
 	Button,
 	Box,
 	Grid,
-	Container,
-	Stack, // Add Button import
+	Stack,
 } from "@mui/material";
 import {
 	Home,
@@ -20,11 +17,11 @@ import {
 	ShoppingCart,
 	Person,
 	Feedback,
-	PowerSettingsNew, // Add PowerSettingsNew icon import
+	AccessTimeFilled,
 } from "@mui/icons-material";
 
-import { NavLink, Outlet } from "react-router-dom";
 import axios from "axios";
+import { NavLink, Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { usersLoaded } from "../apps/userSlice";
@@ -134,26 +131,9 @@ export default function Admin() {
 							}}
 						>
 							<ListItemIcon>
-								<ShoppingCart />
+								<AccessTimeFilled />
 							</ListItemIcon>
 							<ListItemText primary="Order" />
-						</ListItemButton>
-						<ListItemButton
-							component={NavLink}
-							to="/admin/kritiksaran"
-							sx={{
-								height: 60,
-								fontSize: 18,
-								fontSize: 18,
-								":hover": {
-									backgroundColor: "lightgray",
-								},
-							}}
-						>
-							<ListItemIcon>
-								<Feedback />
-							</ListItemIcon>
-							<ListItemText primary="Kritik & Saran" />
 						</ListItemButton>
 						<ListItemButton
 							component={NavLink}
@@ -171,6 +151,23 @@ export default function Admin() {
 								<ShoppingCart />
 							</ListItemIcon>
 							<ListItemText primary="Transaksi" />
+						</ListItemButton>
+						<ListItemButton
+							component={NavLink}
+							to="/admin/kritiksaran"
+							sx={{
+								height: 60,
+								fontSize: 18,
+								fontSize: 18,
+								":hover": {
+									backgroundColor: "lightgray",
+								},
+							}}
+						>
+							<ListItemIcon>
+								<Feedback />
+							</ListItemIcon>
+							<ListItemText primary="Kritik & Saran" />
 						</ListItemButton>
 					</List>
 				</Grid>

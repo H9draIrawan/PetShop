@@ -19,7 +19,12 @@ import {
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { petsAdded, petsDeleted, petsLoaded, petsUpdated } from "../apps/petSlice";
+import {
+	petsAdded,
+	petsBanned,
+	petsLoaded,
+	petsUpdated,
+} from "../apps/petSlice";
 import { Delete, Edit } from "@mui/icons-material";
 import { useState } from "react";
 import { set, useForm } from "react-hook-form";
@@ -95,53 +100,56 @@ export default function Pet() {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{rows.map((row) => (
-									<TableRow key={row._id}>
-										<TableCell>
-											<img
-												src={
-													import.meta.env.VITE_API_URL +
-													"/static/" +
-													row.profile
-												}
-												width={200}
-											/>
-										</TableCell>
-										<TableCell
-											sx={{ fontSize: 20, textTransform: "capitalize" }}
-										>
-											{row.nama}
-										</TableCell>
-										<TableCell
-											sx={{ fontSize: 20, textTransform: "capitalize" }}
-										>
-											{row.umur}
-										</TableCell>
-										<TableCell
-											sx={{ fontSize: 20, textTransform: "capitalize" }}
-										>
-											{row.jenis}
-										</TableCell>
-										<TableCell
-											sx={{ fontSize: 20, textTransform: "capitalize" }}
-										>
-											{row.ras}
-										</TableCell>
-										<TableCell>
-											<Button
-												onClick={() => {
-													setForm("edit");
-													setPet(row);
-												}}
-											>
-												<Edit />
-											</Button>
-											<Button onClick={()=> dispatch(petsDeleted(row._id))}>
-												<Delete />
-											</Button>
-										</TableCell>
-									</TableRow>
-								))}
+								{rows.map(
+									(row) =>
+										row.status && (
+											<TableRow key={row._id}>
+												<TableCell>
+													<img
+														src={
+															import.meta.env.VITE_API_URL +
+															"/static/" +
+															row.profile
+														}
+														width={200}
+													/>
+												</TableCell>
+												<TableCell
+													sx={{ fontSize: 20, textTransform: "capitalize" }}
+												>
+													{row.nama}
+												</TableCell>
+												<TableCell
+													sx={{ fontSize: 20, textTransform: "capitalize" }}
+												>
+													{row.umur}
+												</TableCell>
+												<TableCell
+													sx={{ fontSize: 20, textTransform: "capitalize" }}
+												>
+													{row.jenis}
+												</TableCell>
+												<TableCell
+													sx={{ fontSize: 20, textTransform: "capitalize" }}
+												>
+													{row.ras}
+												</TableCell>
+												<TableCell>
+													<Button
+														onClick={() => {
+															setForm("edit");
+															setPet(row);
+														}}
+													>
+														<Edit />
+													</Button>
+													<Button onClick={() => dispatch(petsBanned(row._id))}>
+														<Delete />
+													</Button>
+												</TableCell>
+											</TableRow>
+										),
+								)}
 							</TableBody>
 						</Table>
 					</TableContainer>

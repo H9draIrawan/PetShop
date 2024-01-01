@@ -28,7 +28,7 @@ import {
 } from "@mui/icons-material";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { ordersAdded, ordersLoaded } from "../apps/orderSlice";
+import { ordersAdded, ordersDeleted, ordersLoaded } from "../apps/orderSlice";
 
 export default function Order() {
 	const dispatch = useDispatch();
@@ -41,7 +41,7 @@ export default function Order() {
 			dispatch(ordersLoaded(response.data));
 			console.log(response.data);
 		});
-	}, []);
+	});
 	const rows = useSelector((state) => state.pet.pets);
 	const orders = useSelector((state) => state.order.orders);
 
@@ -140,9 +140,10 @@ export default function Order() {
 			{Form && (
 				<Box component="form" sx={{ m: 3 }} onSubmit={handleSubmit(onSubmit)}>
 					<Select sx={{ width: 400 }} {...register("pet")}>
-						{rows.map((row) => (
-							<MenuItem value={row._id}>{row.nama}</MenuItem>
-						))}
+						{rows.map(
+							(row) =>
+								row.status && <MenuItem value={row._id}>{row.nama}</MenuItem>,
+						)}
 					</Select>
 					<FormGroup sx={{ ml: 1 }}>
 						<FormControlLabel
@@ -213,6 +214,11 @@ export default function Order() {
 												}}
 											>
 												<Visibility />
+											</Button>
+											<Button
+												onClick={() => dispatch(ordersDeleted(order._id))}
+											>
+												<Delete></Delete>
 											</Button>
 										</TableCell>
 									</TableRow>

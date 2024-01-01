@@ -39,7 +39,7 @@ import {
 	usersBanned,
 	userUnbanned,
 } from "../apps/userSlice";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 
@@ -119,7 +119,7 @@ export default function MasterUser() {
 			dispatch(usersLoaded(response.data));
 			console.log(response.data);
 		});
-	});
+	}, []);
 	const rows = useSelector((state) => state.user.users);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -145,6 +145,9 @@ export default function MasterUser() {
 		dispatch(usersUpdated(data));
 		setEditUser(false);
 		setUser(null);
+		setImage(null);
+		setSaveImage(null);
+		window.location.reload();
 	};
 
 	const Schema = Joi.object({
@@ -234,18 +237,32 @@ export default function MasterUser() {
 									>
 										<Edit />
 									</Button>
-									{row.status == "nonactive" ||
-										(row.status == "banned" && (
-											<Button onClick={() => dispatch(usersDeleted(row._id))}>
-												<Delete />
-											</Button>
-										))}
+									{row.status == "nonactive" && (
+										<Button
+											onClick={() => {
+												dispatch(usersDeleted(row._id));
+												window.location.reload();
+											}}
+										>
+											<Delete />
+										</Button>
+									)}
 									{row.status == "active" ? (
-										<Button onClick={() => dispatch(usersBanned(row._id))}>
+										<Button
+											onClick={() => {
+												dispatch(usersBanned(row._id));
+												window.location.reload();
+											}}
+										>
 											<Block />
 										</Button>
 									) : (
-										<Button onClick={() => dispatch(userUnbanned(row._id))}>
+										<Button
+											onClick={() => {
+												dispatch(userUnbanned(row._id));
+												window.location.reload();
+											}}
+										>
 											<CheckCircle />
 										</Button>
 									)}

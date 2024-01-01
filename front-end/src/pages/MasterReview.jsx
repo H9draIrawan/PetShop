@@ -159,18 +159,6 @@ export default function MasterReview() {
 							</TableCell>
 							<TableCell>{row.kritik}</TableCell>
 							<TableCell>{row.saran}</TableCell>
-
-							<TableCell>
-								<Button>
-									<Edit />
-								</Button>
-								<Button>
-									<Delete />
-								</Button>
-								<Button>
-									<Block />
-								</Button>
-							</TableCell>
 						</TableRow>
 					))}
 					{emptyRows > 0 && (
