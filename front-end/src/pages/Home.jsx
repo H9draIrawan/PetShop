@@ -1,90 +1,10 @@
-// import { NavLink, Outlet } from "react-router-dom";
-
-// export default function Home() {
-// 	return (
-// 		<div>
-// 			<NavLink to={"/Home"} className="text-3xl font-bold">Pet Shop</NavLink>
-// 			<NavLink to={"Profile"} className="bg-blue-500 rounded-lg mx-5 px-3">Profile</NavLink>
-// 			<NavLink to={"Pet"} className="bg-blue-500 rounded-lg mx-5 px-3">Pet</NavLink>
-// 			<NavLink to={"kritik-saran"} className="bg-blue-500 rounded-lg mx-5 px-3">Kritik dan Saran</NavLink>
-// 			<NavLink to={"/registerLogin"} className="bg-blue-500 rounded-lg mx-5 px-3">Register/Login</NavLink>
-// 			<br />
-// 			<br />
-
-// 			<Outlet />
-// 		</div>
-// 	);
-// }
-
-// import React from "react";
-// import { NavLink as RouterLink, Outlet } from "react-router-dom";
-// import { createTheme, ThemeProvider, createMuiTheme, Typography, Button, Box, AppBar, Toolbar } from '@mui/material';
-
-
-// const NavigationLink = ({ to, text }) => (
-//   <Typography
-//     component={RouterLink}
-//     to={to}
-//     variant="h6"
-//     color="black"
-//     sx={{ mx: 2,  textDecoration: 'none', borderRadius: 2 }}
-//   >
-//     {text}
-//   </Typography>
-// );
-
-// const Home = () => {
-//   const theme = createMuiTheme({
-//     typography: {
-//       fontFamily: [
-//         'Afacad',
-//         'sans-serif',
-//       ].join(','),
-//     }
-//   })
-
-//   return (
-//     <Box sx={{flexGrow:1}}>
-//       <AppBar>
-//         <ThemeProvider theme={theme}>
-//             <Typography variant="h3" fontWeight="bold" sx={{ mb: 2, ml:2, mt:2 }}>
-//               <RouterLink to="/Home" style={{ textDecoration: 'none', color: 'inherit', marginRight: '1rem'}}>
-//                 Pet Shop
-//               </RouterLink>
-//               <NavigationLink to="Profile" text="Profile" />
-//               <NavigationLink to="Pet" text="Pet" />
-//               <NavigationLink to="kritik-saran" text="Kritik dan Saran" />
-//               <NavigationLink to="/registerLogin" text="Register/Login"/> 
-//             </Typography>
-//             <Outlet />
-//         </ThemeProvider>
-//       </AppBar>
-//     </Box>
-//   );
-// };
-
-// export default Home;
-
-import * as React from 'react';
-import { NavLink, Link as RouterLink, Outlet } from "react-router-dom";
-import AppBar from '@mui/material/AppBar';
+import { Link as Outlet } from "react-router-dom";
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import {createMuiTheme, ThemeProvider} from '@mui/material'
+import Navbar from "../components/Navbar";
 
-const NavigationLink = ({ to, text }) => (
-  <Typography
-    component={RouterLink}
-    to={to}
-    variant="h6"
-    color="black"
-    sx={{ mx: 2,  textDecoration: 'none', borderRadius: 2 }}
-  >
-    {text}
-  </Typography>
-);
+// Sections
+import {Banner, PetVariant} from "../components/home";
 
 const Home = () => {
   const theme = createMuiTheme({
@@ -99,19 +19,10 @@ const Home = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <ThemeProvider theme={theme}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1, mx:3 }}>
-              <RouterLink to="/Home" style={{ textDecoration: 'none', color: 'inherit', marginRight: '1rem', fontSize: "30px"}}>Pet Shop</RouterLink>
-              <NavigationLink to="Profile" text="Profile" />
-              <NavigationLink to="Pet" text="Pet" />
-              <NavigationLink to="Order" text="Order" />
-              <NavigationLink to="kritik-saran" text="Kritik dan Saran" />
-            </Typography>
-            <RouterLink to="/registerLogin" color='inherit'>Login</RouterLink>
-          </Toolbar>
-        </AppBar>
+        <Navbar />
         <Outlet/>
+        <Banner />
+        <PetVariant />
       </ThemeProvider>
     </Box>
   );
