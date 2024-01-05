@@ -37,11 +37,11 @@ const router = createBrowserRouter([
 		element: <Home />,
 		children: [
 			{
-				path: "Profile",
+				path: "profile",
 				element: <Profile />,
 				children: [
 					{
-						path: "Dashboard",
+						path: "dashboard",
 						element: <Dashboard />,
 					},
 				],
@@ -57,7 +57,6 @@ const router = createBrowserRouter([
 			{
 				path: "kritik-saran",
 				element: <KritikSaran />,
-				children: [],
 			},
 		],
 	},

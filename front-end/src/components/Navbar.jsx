@@ -1,5 +1,5 @@
-import { Link as RouterLink } from "react-router-dom";
-import { AppBar, Toolbar, Typography, InputBase, Box, Container } from '@mui/material';
+import { NavLink as RouterLink } from "react-router-dom";
+import { AppBar, Toolbar, Typography, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import { blue, grey } from "@mui/material/colors";
@@ -60,7 +60,7 @@ const Navbar = () => {
   return (
     <AppBar position="static" sx={{backgroundColor: "#fff" , color: grey[800]}}>
       <Toolbar sx={{ justifyContent: "space-between"}}>
-        <RouterLink to="/Home" style={{ textDecoration: 'none', color: blue[300], marginRight: '1rem', fontSize: "30px", paddingLeft: "0.8rem" }}>Pet Shop</RouterLink>
+        <RouterLink to="/home" style={{ textDecoration: 'none', color: blue[300], marginRight: '1rem', fontSize: "30px", paddingLeft: "0.8rem" }}>Pet Shop</RouterLink>
         
         <Search sx={{backgroundColor: grey[300], color: grey[600], borderRadius: 8}}>
           <SearchIconWrapper>
@@ -76,9 +76,9 @@ const Navbar = () => {
       </Toolbar>
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <NavigationLink to="Profile" text="Profile" />
-          <NavigationLink to="Pet" text="Pet" />
-          <NavigationLink to="Order" text="Order" />
+          <NavigationLink to="profile" text="Profile" />
+          <NavigationLink to="pet" text="Pet" />
+          <NavigationLink to="order" text="Order" />
           <NavigationLink to="kritik-saran" text="Kritik dan Saran" />
         </Typography>
 

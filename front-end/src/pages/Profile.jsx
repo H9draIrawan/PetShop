@@ -45,12 +45,6 @@ function a11yProps(index) {
 
 
 export default function Profile() {
-	// return (
-	// 	<>
-	// 		<h1>Profile</h1>
-    //         <Outlet />
-	// 	</>
-	// );
 	const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {

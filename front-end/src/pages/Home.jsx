@@ -1,13 +1,15 @@
-import { Link as Outlet } from "react-router-dom";
 import Box from '@mui/material/Box';
-import {createMuiTheme, ThemeProvider} from '@mui/material'
+import { createTheme, ThemeProvider } from '@mui/material'
 import Navbar from "../components/Navbar";
 
-// Sections
+import { Outlet, useLocation } from "react-router-dom"
+
 import {Banner, PetVariant} from "../components/home";
 
+
 const Home = () => {
-  const theme = createMuiTheme({
+  const location = useLocation();
+  const theme = createTheme({
     typography: {
       fontFamily: [
         'Afacad',
@@ -15,14 +17,20 @@ const Home = () => {
       ].join(','),
     }
   })
-
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <ThemeProvider theme={theme}>
-        <Navbar />
-        <Outlet/>
-        <Banner />
-        <PetVariant />
+        <Navbar /> 
+        {
+          location.pathname === "/home" ? 
+          (<Box>
+            <Banner />
+            <PetVariant />
+          </Box>)
+        :
+          <Outlet />
+        }
       </ThemeProvider>
     </Box>
   );
