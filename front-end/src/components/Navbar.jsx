@@ -71,7 +71,7 @@ const Navbar = () => {
             inputProps={{ 'aria-label': 'search' }}
           />
         </Search>
-        <RouterLink to="/registerLogin" style={{color: grey[800]}}>Login</RouterLink>
+        <RouterLink to="/login" style={{color: grey[800]}}>Login</RouterLink>
 
       </Toolbar>
       <Toolbar>

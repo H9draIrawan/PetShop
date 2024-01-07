@@ -7,8 +7,10 @@ import {
 	RouterProvider,
 	createBrowserRouter,
 } from "react-router-dom";
+import { AuthProvider } from '../src/components/Auth';
 
-import RegisterLogin from "./pages/RegisterLogin";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import Pet from "./pages/Pet";
@@ -26,11 +28,15 @@ import Order from "./pages/Order";
 const router = createBrowserRouter([
 	{
 		index: true,
-		element: <Navigate to={"registerLogin"} />,
+		element: <Navigate to={"Home"} />,
 	},
 	{
-		path: "registerLogin",
-		element: <RegisterLogin />,
+		path: "register",
+		element: <Register />,
+	},
+	{
+		path: "login",
+		element: <Login />,
 	},
 	{
 		path: "home",
@@ -94,8 +100,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
-		<Provider store={Store}>
-			<RouterProvider router={router} />
-		</Provider>
+		<AuthProvider>
+			<Provider store={Store}>
+				<RouterProvider router={router} />
+			</Provider>
+		</AuthProvider>
 	</React.StrictMode>,
 );
