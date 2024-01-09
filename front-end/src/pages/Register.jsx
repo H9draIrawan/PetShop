@@ -47,16 +47,13 @@ const Register = () => {
       });
       console.log("a");
 
-      // Check if the backend response contains authentication data
       if (response.data && response.data.token) {
         login(response.data);
 
-        // Optionally, you may redirect the user to a different page or perform other actions
       } else {
         console.error('Registration failed. Authentication data not received.');
       }
 
-      // Clear form data after submission
       setFormData({
         username: '',
         email: '',

@@ -28,7 +28,7 @@ import Order from "./pages/Order";
 const router = createBrowserRouter([
 	{
 		index: true,
-		element: <Navigate to={"Home"} />,
+		element: <Navigate to={"home"} />,
 	},
 	{
 		path: "register",

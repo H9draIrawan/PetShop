@@ -15,6 +15,7 @@ import {
 	TableRow,
 	TextField,
 	Typography,
+	InputLabel
 } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
@@ -45,6 +46,7 @@ export default function Pet() {
 	const [Pet, setPet] = useState(null);
 	const [Image, setImage] = useState();
 	const [SaveImage, setSaveImage] = useState();
+	
 
 	const onSubmit = (data) => {
 		data.profile = SaveImage;
@@ -165,7 +167,9 @@ export default function Pet() {
 			{Form && (
 				<Box component="form" sx={{ m: 3 }} onSubmit={handleSubmit(onSubmit)}>
 					<img src={Image} style={{ width: 100, margin: 10 }} />
+					<InputLabel style={{ marginTop:"0px" }}>Foto</InputLabel>
 					<TextField
+						style={{ marginTop:"0px" }}
 						type="file"
 						fullWidth
 						variant="outlined"
@@ -176,29 +180,42 @@ export default function Pet() {
 						}}
 					/>
 					<br />
+					<InputLabel style={{ marginTop:"15px" }}>Nama</InputLabel>
 					<TextField
-						label="Nama"
+						// label="Nama"
+						style={{ marginTop:"0px", width: "825px" }}
 						fullWidth
 						variant="outlined"
 						sx={{ width: 800, mt: 3 }}
 						{...register("nama")}
 					/>
+
+					<Box display={"flex"}>
+                    	<Box width={"100%"} marginRight={3}>
+							<InputLabel style={{ marginTop:"15px" }}>Umur</InputLabel>
+							<TextField
+								// label="Umur"
+								style={{ marginTop:"0px" }}
+								type="number"
+								sx={{ width: 400, mt: 3 }}
+								{...register("umur")}
+							/>
+						</Box>
+						<Box marginX={"auto"} width={"100%"}>
+							<InputLabel style={{ marginTop:"15px" }}>Jenis Hewan</InputLabel>
+							<Select style={{ marginTop:"0px" }} sx={{ width: 400, mt: 3 }} {...register("jenis")}>
+								<MenuItem value={"Anjing"}>Anjing</MenuItem>
+								<MenuItem value={"Kucing"}>Kucing</MenuItem>
+								<MenuItem value={"Hamster"}>Hamster</MenuItem>
+								<MenuItem value={"Kelinci"}>Kelinci</MenuItem>
+							</Select>
+						</Box>
+					</Box>
+
+					<InputLabel style={{ marginTop:"15px" }}>Ras</InputLabel>
 					<TextField
-						label="Umur"
-						type="number"
-						sx={{ width: 400, mt: 3 }}
-						{...register("umur")}
-					/>
-					<br />
-					<Select sx={{ width: 400, mt: 3 }} {...register("jenis")}>
-						<MenuItem value={"Anjing"}>Anjing</MenuItem>
-						<MenuItem value={"Kucing"}>Kucing</MenuItem>
-						<MenuItem value={"Hamster"}>Hamster</MenuItem>
-						<MenuItem value={"Kelinci"}>Kelinci</MenuItem>
-					</Select>
-					<br />
-					<TextField
-						label="Ras"
+						// label="Ras"
+						style={{ marginTop:"0px" }}
 						variant="outlined"
 						sx={{ width: 400, mt: 3 }}
 						{...register("ras")}
