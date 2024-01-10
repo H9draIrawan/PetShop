@@ -31,7 +31,7 @@ const Verification = () => {
 	};
 	const handleResend = async () => {
 		await axios.post(`${import.meta.env.VITE_API_URL}/api/user/token`, {
-			email: localStorage.getItem("email"),
+			email: localStorage.getItem("verify"),
 		});
 		setTime(180);
 	};
