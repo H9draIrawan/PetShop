@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material'
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer"
 
 import { Outlet, useLocation } from "react-router-dom"
 
@@ -31,6 +32,7 @@ const Home = () => {
         :
           <Outlet />
         }
+        <Footer/>
       </ThemeProvider>
     </Box>
   );

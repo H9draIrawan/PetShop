@@ -105,11 +105,11 @@ const KritikSaran = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="sticky">
+      {/* <AppBar position="sticky">
         <Toolbar>
           <Typography variant="h6">Kritik dan Saran</Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
       <Toolbar />
       <Container>
         {/* BUTTON SORT-------- */}
