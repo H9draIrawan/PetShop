@@ -1,4 +1,4 @@
-import { NavLink as RouterLink } from "react-router-dom";
+import { NavLink as RouterLink, useNavigate } from "react-router-dom";
 import {
 	AppBar,
 	Toolbar,
@@ -64,6 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+	const navigate = useNavigate();
 	return (
 		<AppBar
 			position="static"
@@ -105,7 +106,7 @@ const Navbar = () => {
 								color="error"
 								onClick={() => {
 									localStorage.removeItem("user");
-                  window.location.reload();
+									navigate("/home");
 								}}
 							>
 								LOGOUT
