@@ -18,9 +18,10 @@ const Login = () => {
 	const [password, setPassword] = useState("");
 
 	const handleLogin = async (event) => {
-		if (email === "admin@petshop.com" || password === "admin@petshop.com") {
+		if (email === "admin@petshop.com" && password === "admin@petshop.com") {
 			localStorage.setItem("admin", true);
 			navigate("/admin");
+			return;
 		}
 		event.preventDefault();
 
@@ -80,6 +81,7 @@ const Login = () => {
 							<Grid container spacing={2}>
 								<Grid item xs={12}>
 									<TextField
+										type="email"
 										variant="outlined"
 										fullWidth
 										label="Email"
@@ -89,10 +91,10 @@ const Login = () => {
 								</Grid>
 								<Grid item xs={12}>
 									<TextField
+										type="password"
 										variant="outlined"
 										fullWidth
 										label="Password"
-										type="password"
 										value={password}
 										onChange={(e) => setPassword(e.target.value)}
 									/>
