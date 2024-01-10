@@ -39,7 +39,7 @@ import {
 	usersBanned,
 	userUnbanned,
 } from "../apps/userSlice";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 

@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import {
 	TextField,
@@ -10,12 +10,11 @@ import {
 	Stack,
 } from "@mui/material";
 import bgRegister from "../assets/bgRegister.svg";
-import { useAuth } from "../components/Auth";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
-  const navigate = useNavigate();
-	const { login } = useAuth();
+	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		nama: "",
 		username: "",
@@ -50,21 +49,17 @@ const Register = () => {
 		}
 
 		try {
-			const response = await axios.post(
-				`${import.meta.env.VITE_API_URL}/api/user/register`,
-				{
-					nama: formData.nama,
-					username: formData.username,
-					email: formData.email,
-					password: formData.password,
-					alamat: formData.alamat,
-					kota: formData.kota,
-					no_hp: formData.no_hp,
-				},
-			);
-
+			await axios.post(`${import.meta.env.VITE_API_URL}/api/user/register`, {
+				nama: formData.nama,
+				username: formData.username,
+				email: formData.email,
+				password: formData.password,
+				alamat: formData.alamat,
+				kota: formData.kota,
+				no_hp: formData.no_hp,
+			});
 			setFormData({
-        nama : "",
+				nama: "",
 				username: "",
 				email: "",
 				password: "",
@@ -73,7 +68,8 @@ const Register = () => {
 				no_hp: "",
 			});
 
-      navigate("/login");
+			localStorage.setItem("verify", formData.email);
+			navigate("/verification");
 		} catch (error) {
 			console.error(error);
 			alert("Registration failed. Please try again.");
@@ -95,6 +91,9 @@ const Register = () => {
 				}}
 			>
 				<Container component="main">
+					<Button variant="contained" sx={{ mt: 3 }}>
+						<Link to="/home">HOME</Link>
+					</Button>
 					<Paper sx={{ mt: 5, mb: 5, mx: 30, py: 3 }} elevation={3}>
 						<Typography variant="h4" sx={{ textAlign: "center" }}>
 							Register
@@ -179,20 +178,20 @@ const Register = () => {
 								</Button>
 							</Stack>
 						</Box>
-						<Typography
-							variant="body1"
-							style={{ textAlign: "right", marginTop: 30, marginRight: 30 }}
-						>
-							Sudah punya akun?{" "}
-							<NavLink
-								component={NavLink}
-								to="/login"
-								style={{ textDecoration: "none", color: "blue" }}
-							>
-								Login
-							</NavLink>
-						</Typography>
 					</Paper>
+					<Typography
+						variant="body1"
+						style={{ textAlign: "right", margin: 30 }}
+					>
+						Sudah punya akun?{" "}
+						<NavLink
+							component={NavLink}
+							to="/login"
+							style={{ textDecoration: "none", color: "blue" }}
+						>
+							Login
+						</NavLink>
+					</Typography>
 				</Container>
 			</div>
 		</>

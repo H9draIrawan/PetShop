@@ -20,16 +20,25 @@ import {
 	AccessTimeFilled,
 } from "@mui/icons-material";
 
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Navigate, Outlet, useNavigate } from "react-router-dom";
 
 export default function Admin() {
+	const navigate = useNavigate();
 	return (
 		<Stack spacing={7}>
+			{!localStorage.getItem("admin") && <Navigate to="/home" />}
 			<AppBar>
 				<Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
 					<Typography variant="h6">ADMIN</Typography>
 					<Box>
-						<Button variant="contained" color="error">
+						<Button
+							variant="contained"
+							color="error"
+							onClick={() => {
+								localStorage.removeItem("admin");
+								navigate("/home");
+							}}
+						>
 							Logout
 						</Button>
 					</Box>

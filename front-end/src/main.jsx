@@ -7,10 +7,11 @@ import {
 	RouterProvider,
 	createBrowserRouter,
 } from "react-router-dom";
-import { AuthProvider } from '../src/components/Auth';
+import { AuthProvider } from "../src/components/Auth";
 
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Verification from "./pages/Verification";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import Pet from "./pages/Pet";
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
 	{
 		path: "register",
 		element: <Register />,
+	},
+	{
+		path: "verification",
+		element: <Verification />,
 	},
 	{
 		path: "login",
