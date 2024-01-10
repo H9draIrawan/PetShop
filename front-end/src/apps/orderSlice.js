@@ -11,6 +11,7 @@ export const orderSlice = createSlice({
 		},
 		ordersAdded: (state, action) => {
 			axios.post(`${import.meta.env.VITE_API_URL}/api/order`, {
+				id_user: action.payload.id_user,
 				details: action.payload.details,
 				tanggal: action.payload.tanggal,
 			});

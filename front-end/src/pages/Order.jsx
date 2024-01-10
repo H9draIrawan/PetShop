@@ -29,19 +29,25 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ordersAdded, ordersDeleted, ordersLoaded } from "../apps/orderSlice";
+import { joiResolver } from "@hookform/resolvers/joi";
+import Joi from "joi";
 
 export default function Order() {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		axios.get(`${import.meta.env.VITE_API_URL}/api/pet`).then(function (response) {
-			dispatch(petsLoaded(response.data));
-			console.log(response.data);
-		});
-		axios.get(`${import.meta.env.VITE_API_URL}/api/order`).then(function (response) {
-			dispatch(ordersLoaded(response.data));
-			console.log(response.data);
-		});
-	});
+		axios
+			.get(`${import.meta.env.VITE_API_URL}/api/pet`)
+			.then(function (response) {
+				dispatch(petsLoaded(response.data));
+				console.log(response.data);
+			});
+		axios
+			.get(`${import.meta.env.VITE_API_URL}/api/order`)
+			.then(function (response) {
+				dispatch(ordersLoaded(response.data));
+				console.log(response.data);
+			});
+	}, []);
 	const rows = useSelector((state) => state.pet.pets);
 	const orders = useSelector((state) => state.order.orders);
 
@@ -64,9 +70,12 @@ export default function Order() {
 	};
 
 	const onOrder = (data) => {
-		alert("Order Berhasil");
+		data.id_user = JSON.parse(localStorage.getItem("user"))._id;
 		data.details = Details;
+		if (data.details.length === 0 || new Date(data.tanggal) < new Date())
+			return;
 		dispatch(ordersAdded(data));
+		window.location.reload();
 	};
 
 	const { register, handleSubmit } = useForm();
@@ -142,7 +151,11 @@ export default function Order() {
 					<Select sx={{ width: 400 }} {...register("pet")}>
 						{rows.map(
 							(row) =>
-								row.status && <MenuItem value={row._id}>{row.nama}</MenuItem>,
+								row.status &&
+								row.user._id ==
+									JSON.parse(localStorage.getItem("user"))._id && (
+									<MenuItem value={row._id}>{row.nama}</MenuItem>
+								),
 						)}
 					</Select>
 					<FormGroup sx={{ ml: 1 }}>
@@ -189,7 +202,9 @@ export default function Order() {
 					<TableBody>
 						{orders.map(
 							(order) =>
-								!order.status && (
+								!order.status &&
+								order.user._id ==
+									JSON.parse(localStorage.getItem("user"))._id && (
 									<TableRow key={order._id}>
 										<TableCell sx={{ fontSize: 20 }}>
 											{order.total.toLocaleString("id-ID", {

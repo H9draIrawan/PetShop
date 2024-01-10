@@ -15,7 +15,7 @@ import {
 	TableRow,
 	TextField,
 	Typography,
-	InputLabel
+	InputLabel,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
@@ -28,27 +28,29 @@ import {
 } from "../apps/petSlice";
 import { Delete, Edit } from "@mui/icons-material";
 import { useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 
 export default function Pet() {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		axios.get(`${import.meta.env.VITE_API_URL}/api/pet`).then(function (response) {
-			dispatch(petsLoaded(response.data));
-			console.log(response.data);
-		});
-	});
+		axios
+			.get(`${import.meta.env.VITE_API_URL}/api/pet`)
+			.then(function (response) {
+				dispatch(petsLoaded(response.data));
+				console.log(response.data);
+			});
+	}, []);
 	const rows = useSelector((state) => state.pet.pets);
 
 	const [Form, setForm] = useState(null);
 	const [Pet, setPet] = useState(null);
 	const [Image, setImage] = useState();
 	const [SaveImage, setSaveImage] = useState();
-	
 
 	const onSubmit = (data) => {
+		data.id_user = JSON.parse(localStorage.getItem("user"))._id;
 		data.profile = SaveImage;
 		if (Form == "add") {
 			dispatch(petsAdded(data));
@@ -58,6 +60,7 @@ export default function Pet() {
 		}
 		setForm(null);
 		setPet(null);
+		window.location.reload();
 	};
 
 	const Schema = Joi.object({
@@ -104,7 +107,9 @@ export default function Pet() {
 							<TableBody>
 								{rows.map(
 									(row) =>
-										row.status && (
+										row.status &&
+										row.user._id ==
+											JSON.parse(localStorage.getItem("user"))._id && (
 											<TableRow key={row._id}>
 												<TableCell>
 													<img
@@ -167,9 +172,9 @@ export default function Pet() {
 			{Form && (
 				<Box component="form" sx={{ m: 3 }} onSubmit={handleSubmit(onSubmit)}>
 					<img src={Image} style={{ width: 100, margin: 10 }} />
-					<InputLabel style={{ marginTop:"0px" }}>Foto</InputLabel>
+					<InputLabel style={{ marginTop: "0px" }}>Foto</InputLabel>
 					<TextField
-						style={{ marginTop:"0px" }}
+						style={{ marginTop: "0px" }}
 						type="file"
 						fullWidth
 						variant="outlined"
@@ -180,10 +185,10 @@ export default function Pet() {
 						}}
 					/>
 					<br />
-					<InputLabel style={{ marginTop:"15px" }}>Nama</InputLabel>
+					<InputLabel style={{ marginTop: "15px" }}>Nama</InputLabel>
 					<TextField
 						// label="Nama"
-						style={{ marginTop:"0px", width: "825px" }}
+						style={{ marginTop: "0px", width: "825px" }}
 						fullWidth
 						variant="outlined"
 						sx={{ width: 800, mt: 3 }}
@@ -191,19 +196,23 @@ export default function Pet() {
 					/>
 
 					<Box display={"flex"}>
-                    	<Box width={"100%"} marginRight={3}>
-							<InputLabel style={{ marginTop:"15px" }}>Umur</InputLabel>
+						<Box width={"100%"} marginRight={3}>
+							<InputLabel style={{ marginTop: "15px" }}>Umur</InputLabel>
 							<TextField
 								// label="Umur"
-								style={{ marginTop:"0px" }}
+								style={{ marginTop: "0px" }}
 								type="number"
 								sx={{ width: 400, mt: 3 }}
 								{...register("umur")}
 							/>
 						</Box>
 						<Box marginX={"auto"} width={"100%"}>
-							<InputLabel style={{ marginTop:"15px" }}>Jenis Hewan</InputLabel>
-							<Select style={{ marginTop:"0px" }} sx={{ width: 400, mt: 3 }} {...register("jenis")}>
+							<InputLabel style={{ marginTop: "15px" }}>Jenis Hewan</InputLabel>
+							<Select
+								style={{ marginTop: "0px" }}
+								sx={{ width: 400, mt: 3 }}
+								{...register("jenis")}
+							>
 								<MenuItem value={"Anjing"}>Anjing</MenuItem>
 								<MenuItem value={"Kucing"}>Kucing</MenuItem>
 								<MenuItem value={"Hamster"}>Hamster</MenuItem>
@@ -212,10 +221,10 @@ export default function Pet() {
 						</Box>
 					</Box>
 
-					<InputLabel style={{ marginTop:"15px" }}>Ras</InputLabel>
+					<InputLabel style={{ marginTop: "15px" }}>Ras</InputLabel>
 					<TextField
 						// label="Ras"
-						style={{ marginTop:"0px" }}
+						style={{ marginTop: "0px" }}
 						variant="outlined"
 						sx={{ width: 400, mt: 3 }}
 						{...register("ras")}

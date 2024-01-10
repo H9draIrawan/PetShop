@@ -11,6 +11,7 @@ export const petSlice = createSlice({
 		},
 		petsAdded: (state, action) => {
 			const formData = new FormData();
+			formData.append("id_user", action.payload.id_user);
 			formData.append("profile", action.payload.profile);
 			formData.append("nama", action.payload.nama);
 			formData.append("umur", action.payload.umur);
