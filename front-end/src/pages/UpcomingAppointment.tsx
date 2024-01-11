@@ -1,10 +1,28 @@
 import React from 'react';
 import { Card, CardContent, Typography, Divider, Grid } from '@mui/material';
 
-const UpcomingAppointmentCard = ({ appointment }) => {
-  const { name, date, time, description } = appointment;
+interface IUpcomingAppointmentProps {
+  appointment: {
+    details: [
+      {
+        _id: false,
+        id_pet: string,
+        kategori: [String],
+        harga: Number,
+      },
+    ],
+    tanggal: Date,
+    status: {
+      type: Boolean,
+      default: false,
+    },
+  }
+}
 
-  const providedDate = new Date(date);
+const UpcomingAppointmentCard = (props: IUpcomingAppointmentProps) => {
+  const { details, tanggal, status } = props.appointment;
+
+  const providedDate = new Date(tanggal);
 
   const day = providedDate.getDate();
   const month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(providedDate);
@@ -16,7 +34,14 @@ const UpcomingAppointmentCard = ({ appointment }) => {
     <Card variant="outlined">
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          {name}
+          {
+            details.map((detail) => (
+              <>
+                {detail.id_pet}
+                {", "}
+              </>
+            ))
+          }
         </Typography>
         <Divider />
         <Grid container spacing={3}>
@@ -27,12 +52,21 @@ const UpcomingAppointmentCard = ({ appointment }) => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography variant="body2" color="textSecondary" gutterBottom>
-              Time: {time}
+              Time: 00:00:00
             </Typography>
           </Grid>
         </Grid>
         <Divider />
-        <Typography variant="body1">{description}</Typography>
+        <Typography variant="body1">
+          {
+            details.map((detail) => (
+              <>
+                {detail.kategori}
+                {", "}
+              </>
+            ))
+          }
+        </Typography>
       </CardContent>
     </Card>
   );
