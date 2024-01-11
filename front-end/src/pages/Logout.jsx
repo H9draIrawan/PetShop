@@ -35,12 +35,12 @@ const LogoutPage = () => {
 
   const handleConfirmLogout = () => {
     handleCloseLogoutModal();
-    window.location.href = '/home';
+    window.location.href = '/login';
   };
 
   return (
     <div style={{ padding: '20px' }}>
-      <Button variant="contained" color="primary" onClick={handleOpenLogoutModal}>
+      <Button variant="contained" color="error" onClick={handleOpenLogoutModal}>
         Logout
       </Button>
 

@@ -11,6 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import { blue, grey } from "@mui/material/colors";
 import logo from '../assets/logo.png'
+import Logout from "../pages/Logout";
 
 const NavigationLink = ({ to, text }) => (
 	<Typography
@@ -98,11 +99,11 @@ const Navbar = () => {
 				</Search>
 				{localStorage.getItem("user") ? (
 					<>
-						<Stack spacing={5} direction="row">
+						<Stack display={'flex'} spacing={5} direction="row" alignItems={'center'}>
 							<Typography variant="h6">
-								{JSON.parse(localStorage.getItem("user")).nama}
+								Hello, {JSON.parse(localStorage.getItem("user")).nama}
 							</Typography>
-							<Button
+							{/* <Button
 								variant="contained"
 								color="error"
 								onClick={() => {
@@ -111,7 +112,13 @@ const Navbar = () => {
 								}}
 							>
 								LOGOUT
-							</Button>
+							</Button> */}
+							<Logout 
+								onClick={() => {
+									localStorage.removeItem("user");
+									navigate("/login");
+								}} />
+							
 						</Stack>
 					</>
 				) : (
