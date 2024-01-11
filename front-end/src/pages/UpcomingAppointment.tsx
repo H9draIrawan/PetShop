@@ -7,6 +7,7 @@ interface IUpcomingAppointmentProps {
       {
         _id: false,
         id_pet: string,
+        nama : string,
         kategori: [String],
         harga: Number,
       },
@@ -38,7 +39,6 @@ const UpcomingAppointmentCard = (props: IUpcomingAppointmentProps) => {
             details.map((detail) => (
               <>
                 {detail.id_pet}
-                {", "}
               </>
             ))
           }
