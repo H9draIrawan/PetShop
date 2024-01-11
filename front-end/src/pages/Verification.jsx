@@ -1,20 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Verification = () => {
 	const navigate = useNavigate();
 	const [verificationCode, setVerificationCode] = useState(null);
-	const [time, setTime] = useState(180);
+	const [time, setTime] = useState(0);
 
 	useEffect(() => {
-		handleResend()
+		if (!localStorage.getItem("verify")) {
+			navigate("/login");
+		}
+		else if (localStorage.getItem("verify") && localStorage.getItem("token")) {
+			handleResend();
+			setTime(60);
+			localStorage.removeItem("token");
+		}
+		else if(localStorage.getItem("verify") && !localStorage.getItem("token")){
+			setTime(localStorage.getItem("time"));
+		}
 	}, []);
 
 	useEffect(() => {
 		if (time > 0) {
 			setTimeout(() => setTime(time - 1), 1000);
+			localStorage.setItem("time", time);
 		}
 	}, [time]);
 
@@ -26,6 +37,8 @@ const Verification = () => {
 			},
 		);
 		if (response.data.message === "User verified") {
+			localStorage.removeItem("verify");
+			localStorage.removeItem("token");
 			navigate("/login");
 		}
 	};
@@ -33,11 +46,15 @@ const Verification = () => {
 		await axios.post(`${import.meta.env.VITE_API_URL}/api/user/token`, {
 			email: localStorage.getItem("verify"),
 		});
-		setTime(180);
+		setTime(60);
+	};
+	const formatTime = (time) => {
+		const minutes = Math.floor((time % 3600) / 60);
+		const seconds = time % 60;
+		return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 	};
 	return (
 		<Container>
-			{!localStorage.getItem("verify") && <Navigate to="/home" />}
 			<Button
 				variant="contained"
 				sx={{ mt: 3 }}
@@ -69,7 +86,7 @@ const Verification = () => {
 						RESEND
 					</Button>
 				)}
-				{time > 0 && <Typography>Gunakan sebelum : {time}</Typography>}
+				{time > 0 && <Typography>{formatTime(time)}</Typography>}
 			</Stack>
 		</Container>
 	);

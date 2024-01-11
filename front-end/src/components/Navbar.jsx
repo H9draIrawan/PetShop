@@ -10,7 +10,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import { blue, grey } from "@mui/material/colors";
-import logo from '../assets/logo.png'
+import logo from "../assets/logo.png";
 import Logout from "../pages/Logout";
 
 const NavigationLink = ({ to, text }) => (
@@ -83,7 +83,7 @@ const Navbar = () => {
 						paddingLeft: "0.8rem",
 					}}
 				>
-					<img src={logo} alt="logo" style={{maxWidth: 150, padding: 8}}/>
+					<img src={logo} alt="logo" style={{ maxWidth: 150, padding: 8 }} />
 				</RouterLink>
 
 				<Search
@@ -99,26 +99,24 @@ const Navbar = () => {
 				</Search>
 				{localStorage.getItem("user") ? (
 					<>
-						<Stack display={'flex'} spacing={5} direction="row" alignItems={'center'}>
+						<Stack
+							display={"flex"}
+							spacing={5}
+							direction="row"
+							alignItems={"center"}
+						>
 							<Typography variant="h6">
 								Hello, {JSON.parse(localStorage.getItem("user")).nama}
 							</Typography>
-							{/* <Button
-								variant="contained"
-								color="error"
-								onClick={() => {
-									localStorage.removeItem("user");
-									navigate("/home");
-								}}
-							>
-								LOGOUT
-							</Button> */}
-							<Logout 
-								onClick={() => {
-									localStorage.removeItem("user");
-									navigate("/login");
-								}} />
-							
+							<img
+								src={
+									import.meta.env.VITE_API_URL +
+									"/static/" +
+									JSON.parse(localStorage.getItem("user")).profile
+								}
+								style={{ width: "40px" }}
+							/>
+							<Logout />
 						</Stack>
 					</>
 				) : (

@@ -38,6 +38,7 @@ const Login = () => {
 		} catch (error) {
 			if (error.response.data.message === "User not verified") {
 				localStorage.setItem("verify", email);
+				localStorage.setItem("token", true);
 				navigate("/verification");
 			} else if (error.response.data.message === "User not found") {
 				alert("Email not found");

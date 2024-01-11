@@ -1,5 +1,5 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	TextField,
 	Button,
@@ -11,10 +11,27 @@ import {
 } from "@mui/material";
 import bgRegister from "../assets/bgRegister.svg";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { usersLoaded } from "../apps/userSlice";
 
 const Register = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	useEffect(() => {
+		axios
+			.get(`${import.meta.env.VITE_API_URL}/api/user`)
+			.then(function (response) {
+				dispatch(usersLoaded(response.data));
+				console.log(response.data);
+			});
+	}, []);
+	const users = useSelector((state) => state.user.users);
+
+	const UserSchema = (email) => {
+		const user = users.find((user) => user.email === email);
+		if (user) return true;
+		return false;
+	};
 	const [formData, setFormData] = useState({
 		nama: "",
 		username: "",
@@ -48,6 +65,8 @@ const Register = () => {
 			return;
 		}
 
+		if (UserSchema(formData.email)) return alert("Email already registered");
+
 		try {
 			await axios.post(`${import.meta.env.VITE_API_URL}/api/user/register`, {
 				nama: formData.nama,
@@ -69,6 +88,7 @@ const Register = () => {
 			});
 
 			localStorage.setItem("verify", formData.email);
+			localStorage.setItem("token", true);
 			navigate("/verification");
 		} catch (error) {
 			console.error(error);
