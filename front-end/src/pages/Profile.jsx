@@ -16,11 +16,9 @@ import Dashboard from "./Dashboard";
 import History from "./History";
 import Detail from "./DetailAccount";
 import Pet from "./Pet";
-import Logout from "./Logout";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -108,9 +106,6 @@ export default function Profile() {
       </TabPanel>
       <TabPanel value={value} index={3}>
         <Pet/>
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <Logout/>
       </TabPanel>
       
       {/* Logout Confirmation Modal */}

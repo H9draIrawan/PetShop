@@ -11,6 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import { blue, grey } from "@mui/material/colors";
 import logo from "../assets/logo.png";
+import Logout from "../pages/Logout";
 
 const NavigationLink = ({ to, text }) => (
 	<Typography

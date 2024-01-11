@@ -1,7 +1,9 @@
 import { Box, Container, Typography, Button } from '@mui/material';
+import {useNavigate} from 'react-router-dom'
 import petGroom from '../../assets/pet-groom.png';
 
 export const Banner = () => {
+  const navigate = useNavigate()
   return (
     <Box position={"relative"}>
       <Container sx={{py: 8}} maxWidth={"lg"}>
@@ -14,7 +16,9 @@ export const Banner = () => {
             <Typography as="h2" fontSize={30}>
               Premium grooming and styling
             </Typography>
-            <Button sx={{mt: 4}} variant='contained' color="primary">
+            <Button sx={{mt: 4}} variant='contained' color="primary" onClick={() => {
+									navigate("/home/order");
+								}}>
               Booking Now!
             </Button>
           </Box>
