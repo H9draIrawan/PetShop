@@ -32,23 +32,28 @@ import StarIcon from '@mui/icons-material/Star';
 // potong bulu
 // grooming (semua)
 
-const reviewss = [
-  { id: 1, name: 'John Doe', rating: 3, kritik: 'Great product, highly recommended!', saran: 'ini saran', kategori: 'Mandi' },
-  { id: 2, name: 'Jane Smith', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Mandi' },
-  { id: 3, name: 'Jane a', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Potong Bulu' },
-  { id: 4, name: 'Jane b', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Basmi Kutu' },
-  { id: 5, name: 'Jane c', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Grooming' },
-  { id: 6, name: 'Jane d', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Mandi' },
-  { id: 7, name: 'Jane e', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Potong kuku' },
-];
+// const reviewss = [
+//   { id: 1, name: 'John Doe', rating: 3, kritik: 'Great product, highly recommended!', saran: 'ini saran', kategori: 'Mandi' },
+//   { id: 2, name: 'Jane Smith', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Mandi' },
+//   { id: 3, name: 'Jane a', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Potong Bulu' },
+//   { id: 4, name: 'Jane b', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Basmi Kutu' },
+//   { id: 5, name: 'Jane c', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Grooming' },
+//   { id: 6, name: 'Jane d', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Mandi' },
+//   { id: 7, name: 'Jane e', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Potong kuku' },
+// ];
 
 export default function KritikSaran() {
+  const[filteredOrders, setFilteredOrders] = useState([]);
+
   const dispatch = useDispatch();
 	useEffect(() => {
 		axios
 			.get(`${import.meta.env.VITE_API_URL}/api/order`)
 			.then(function (response) {
-				dispatch(petsLoaded(response.data));
+        const allOrders = response.data;
+        const filteredOrders = allOrders.filter(order => order.status === true )
+        setFilteredOrders(filteredOrders)
+				dispatch(ordersLoaded(response.data));
 				console.log(response.data);
 			});
 		axios
@@ -105,7 +110,14 @@ export default function KritikSaran() {
     setSelectedCategory(event.target.value);
   };
 
-  const handleSubmitReview = async (e, data) => {
+  // const handleCheck = (event) => {
+  //   if (!userOrder) {
+  //     alert("To access, an appointment needs to be completed first");
+	// 		return;
+  //   }
+  // };
+
+  const handleSubmitReview = async (e) => {
 		e.preventDefault();
     if (
 			!newReview.name ||
@@ -119,17 +131,19 @@ export default function KritikSaran() {
 
     // if (!ReviewSchema(newReview.name)) return alert("Name is not registered");
 
-    data.id_user = JSON.parse(localStorage.getItem("user"))._id;
-    data.id_order = JSON.parse(localStorage.getItem("order"))._id;
+    const user = JSON.parse(localStorage.getItem("user"));
+    const order = JSON.parse(localStorage.getItem("order"));
 
 		try {
+      console.log("a");
       await axios.post(`${import.meta.env.VITE_API_URL}/api/review`, {
-        id_user: data.id_user,
-        id_order: data.id_order,
-				nama: newReview.nama,
+        id_user: user._id,
+        id_order: order._id,
 				rating: newReview.rating,
 				kritik: newReview.kritik,
+        saran: newReview.saran
 			});
+      console.log("a");
 			setNewReview({
         name: '',
         rating: '',
@@ -166,6 +180,8 @@ export default function KritikSaran() {
 
   const categories = ["Mandi", "Potong Kuku", "Membersihkan Kutu", "Potong Rambut/Bulu"];
   categories.unshift('All');
+
+  const userOrder = filteredOrders.filter(order => order.id_user === localStorage('user')._id);
 
   return (
     <React.Fragment>
@@ -233,14 +249,16 @@ export default function KritikSaran() {
           </Box>
         )}
         
-        {/* BUTTON SHOW FORM */}
-        {!showForm && (
-          <Box sx={{ my: 3, textAlign: 'center' }}>
-            <Button variant="contained" color="primary" onClick={()=>setShowForm(true)}>
-              Buat Kritik dan Saran
-            </Button>
-          </Box>
-        )}
+        {/* BUTTON SHOW FORM (bingung di sini)*/}
+        {/* {!userOrder && ( */}
+          {!showForm && (
+            <Box sx={{ my: 3, textAlign: 'center' }}>
+              <Button variant="contained" color="primary" onClick={()=>setShowForm(true)}>
+                Buat Kritik dan Saran
+              </Button>
+            </Box>
+          )}
+        {/* } */}
 
         {showForm && (
         <Box sx={{ my: 3, textAlign: 'center' }}>
