@@ -13,8 +13,8 @@ export const PetVariant = () => {
       <Box position={"absolute"} top={-1} left={0} width={"100%"} >
         <img src={shapeBot} alt="shape bottom" />
       </Box>
-      <Container sx={{ py: 8}}>
-        <Typography variant='h5' sx={{fontWeight: 'bold', paddingTop: 5}}>
+      <Container sx={{ py: 8, paddingTop: 15, paddingBottom: 15}}>
+        <Typography variant='h5' sx={{fontWeight: 'bold'}}>
           HEWAN PELIHARAAN
         </Typography>
         <Box sx={{display: 'flex'}}>
@@ -73,25 +73,30 @@ export const PetVariant = () => {
             </IconButton>
           </Card>
         </Box>
-        <Card sx={{ display: 'flex', width: 350, marginTop:5, backgroundColor: '#003300', color: 'white', borderRadius: 15, marginLeft: 5, justifyContent: 'center'}}>
-            <CardMedia
-              component="img"
-              sx={{ width: 151, maxHeight: 120}}
-              image={kelinci}
-              alt="cat"
-            />
-            <Box sx={{ display: 'flex', alignItems: 'center'}}>
-              <CardContent>
-                <Typography component="div" variant="h5" fontWeight={'bold'}>
-                  Kelinci
-                </Typography>
-              </CardContent>
-            </Box>
-            <IconButton aria-label="next">
-              <ArrowCircleRightIcon/>
-            </IconButton>
-          </Card>
+        <Box sx={{display: 'flex'}} justifyContent={'center'}>
+          <Card sx={{ display: 'flex', width: 350, marginTop:5, backgroundColor: '#003300', color: 'white', borderRadius: 15}}>
+              <CardMedia
+                component="img"
+                sx={{ width: 151, maxHeight: 120}}
+                image={kelinci}
+                alt="cat"
+              />
+              <Box sx={{ display: 'flex', alignItems: 'center'}}>
+                <CardContent>
+                  <Typography component="div" variant="h5" fontWeight={'bold'}>
+                    Kelinci
+                  </Typography>
+                </CardContent>
+              </Box>
+              <IconButton aria-label="next">
+                <ArrowCircleRightIcon/>
+              </IconButton>
+            </Card>
+          </Box>
       </Container>
+      <Box position={"absolute"} bottom={-1} left={0} width={"100%"} sx={{transform: 'rotate(180deg)'}} >
+        <img src={shapeBot} alt="shape bottom" />
+      </Box>
     </Box>
   )
 } 

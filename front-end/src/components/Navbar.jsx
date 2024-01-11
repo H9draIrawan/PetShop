@@ -10,6 +10,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import { blue, grey } from "@mui/material/colors";
+import logo from '../assets/logo.png'
 
 const NavigationLink = ({ to, text }) => (
 	<Typography
@@ -81,7 +82,7 @@ const Navbar = () => {
 						paddingLeft: "0.8rem",
 					}}
 				>
-					Pet Shop
+					<img src={logo} alt="logo" style={{maxWidth: 150, padding: 8}}/>
 				</RouterLink>
 
 				<Search

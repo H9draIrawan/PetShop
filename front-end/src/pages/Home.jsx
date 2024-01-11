@@ -3,9 +3,10 @@ import { createTheme, ThemeProvider } from '@mui/material'
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer"
 
+
 import { Outlet, useLocation } from "react-router-dom"
 
-import {Banner, PetVariant} from "../components/home";
+import {Banner, PetVariant, Service} from "../components/home";
 
 
 const Home = () => {
@@ -28,6 +29,7 @@ const Home = () => {
           (<Box>
             <Banner />
             <PetVariant />
+            <Service />
           </Box>)
         :
           <Outlet />

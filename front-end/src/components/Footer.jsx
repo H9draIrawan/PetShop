@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Box, Grid, List, ListItem, ListItemText, Typography, Container} from '@mui/material';
 import { styled} from "@mui/material/styles";
+import logo from '../assets/logo.png'
 
 // const Item = styled(Paper)(({ theme }) => ({
 //     // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -14,19 +15,20 @@ import { styled} from "@mui/material/styles";
 export default function Footer() {
 
   return (
-    <Box sx={{ flexGrow: 1, height: 500, padding: 10}}>
-            <Grid container spacing={2}>
-                <Grid xs={4}>
-                    <Typography>
+        <Box sx={{ flexGrow: 1, height: 500, padding: 10}}>
+            <Grid container spacing={2} pb={8} sx={{borderBottom: "1px dashed #a0a0a0"}}>
+                <Grid item xs={4}>
+                    <img src={logo} alt="" style={{maxWidth: 200, paddingBottom: 10}}/>
+                    <Typography fontSize={30}>
                         PET SHOP SURABAYA
                     </Typography>
                     <Typography>
                         Jl. Ngagel Jaya Tengah 73-77, Baratajaya, Kecamatan Gubeng, Kota Surabaya, Jawa Timur
                     </Typography>
                 </Grid>
-                <Grid xs={8} sx={{paddingLeft: 5, justifyContent: 'right'}}>
-                    <Grid container spacing={3}>
-                        <Grid xs={4}>
+                <Grid item  xs={8} >
+                    <Grid container spacing={3} sx={{paddingLeft: 5, justifyContent: 'end'}}>
+                        <Grid item xs={3}>
                             <Typography style={{fontWeight: 'bold'}}>
                                 TOKO ONLINE
                             </Typography>
@@ -58,7 +60,7 @@ export default function Footer() {
                                 </ListItem>
                             </List>
                         </Grid>
-                        <Grid xs={4}>
+                        <Grid item xs={3}>
                             <Typography style={{fontWeight: 'bold'}}>
                                 AKUN SAYA
                             </Typography>
@@ -80,7 +82,7 @@ export default function Footer() {
                                 </ListItem>
                             </List>
                         </Grid>
-                        <Grid xs={4}>
+                        <Grid item xs={3}>
                             <Typography style={{fontWeight: 'bold'}}>
                                 KAMI MELAYANI
                             </Typography>
@@ -100,21 +102,6 @@ export default function Footer() {
                     </Grid>
                 </Grid>
             </Grid>
-        
-        {/* <Grid container spacing={2}>
-            <Grid item xs={8}>
-                <Item>xs=8</Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>xs=4</Item>
-            </Grid>
-            <Grid item xs={4}>
-                <Item>xs=4</Item>
-            </Grid>
-            <Grid item xs={8}>
-                <Item>xs=8</Item>
-            </Grid> 
-        </Grid> */}
-    </Box>
+        </Box>
   );
 }
