@@ -5,6 +5,7 @@ export const Banner = () => {
   return (
     <Box position={"relative"}>
       <Container sx={{py: 8}} maxWidth={"lg"}>
+      
         <Box display={"flex"} sx={{ flexDirection: 'row' }} alignItems={"center"}>
           <Box flex={1}>
             <Typography fontSize={58}>
