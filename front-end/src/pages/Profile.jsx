@@ -93,7 +93,6 @@ export default function Profile() {
         <Tab label="History Booking" {...a11yProps(1)}  sx={{marginBottom: 5}}/>
         <Tab label="Detail Account" {...a11yProps(2)}  sx={{marginBottom: 5}}/>
         <Tab label="Pets" {...a11yProps(3)}  sx={{marginBottom: 5}}/>
-        <Tab label="Logout" {...a11yProps(4)}  sx={{marginBottom: 5}}/>
       </Tabs>
       <TabPanel value={value} index={0}>
 		    <Dashboard/>
