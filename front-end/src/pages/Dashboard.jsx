@@ -35,7 +35,7 @@ export default function Dashboard() {
 	}, []);
 	const orders = useSelector((state) => state.order.orders);
 	const pets = useSelector((state) => state.pet.pets);
-  
+
 	return (
 		<Box>
 			<Typography fontSize={32} mb={2}>

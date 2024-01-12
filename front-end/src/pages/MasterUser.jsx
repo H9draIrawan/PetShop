@@ -122,7 +122,7 @@ export default function MasterUser() {
 				console.log(response.data);
 			});
 	}, []);
-	const rows = useSelector((state) => state.user.users);
+	const [rows, setrows] = useState(useSelector((state) => state.user.users));
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 	const [EditUser, setEditUser] = useState(false);
@@ -176,22 +176,9 @@ export default function MasterUser() {
 		},
 	});
 
-	const [searchQuery, setSearchQuery] = useState("");
-	const handleSearchChange = (event) => {
-		setSearchQuery(event.target.value);
-	};
-
 	if (!EditUser) {
 		return (
 			<>
-				<TextField
-					label="Search"
-					value={searchQuery}
-					onChange={handleSearchChange}
-					fullWidth
-					color="success"
-					sx={{ mt: 3 }}
-				/>
 				<TableContainer
 					component={Paper}
 					sx={{ overflowX: "auto", maxWidth: 1000, minWidth: 1000, mt: 3 }}
