@@ -9,52 +9,77 @@ import { Outlet } from "react-router-dom";
 //     )
 // }
 
-import React from 'react';
-import { Paper, Typography, Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import React, { useEffect } from "react";
+import {
+	Paper,
+	Typography,
+	Table,
+	TableContainer,
+	TableHead,
+	TableRow,
+	TableCell,
+	TableBody,
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { ordersLoaded } from "../apps/orderSlice";
+import axios from "axios";
 
 const groomingHistory = [
-  { id: 1, petName: 'Buddy', service: 'Bath and Haircut', date: '2023-10-15' },
-  { id: 2, petName: 'Whiskers', service: 'Nail Trim', date: '2023-11-20' },
+	{ id: 1, petName: "Buddy", service: "Bath and Haircut", date: "2023-10-15" },
+	{ id: 2, petName: "Whiskers", service: "Nail Trim", date: "2023-11-20" },
 ];
 
 const formatDateString = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString('default', { month: 'long' });
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
+	const date = new Date(dateString);
+	const day = date.getDate();
+	const month = date.toLocaleString("default", { month: "long" });
+	const year = date.getFullYear();
+	return `${day} ${month} ${year}`;
 };
 
 const HistoryPage = () => {
-  return (
-    <div style={{ padding: '20px' }}>
-      <Typography variant="h4" gutterBottom>
-        Grooming History
-      </Typography>
-      <TableContainer component={Paper} style={{ width: '100%' }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Pet Name</TableCell>
-              <TableCell>Service</TableCell>
-              <TableCell>Date</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {groomingHistory.map((historyEntry) => (
-              <TableRow key={historyEntry.id}>
-                <TableCell>{historyEntry.id}</TableCell>
-                <TableCell>{historyEntry.petName}</TableCell>
-                <TableCell>{historyEntry.service}</TableCell>
-                <TableCell>{formatDateString(historyEntry.date)}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </div>
-  );
+	const dispatch = useDispatch();
+	const user = JSON.parse(localStorage.getItem("user"))._id;
+	useEffect(() => {
+		axios
+			.get(`${import.meta.env.VITE_API_URL}/api/order/user/${user}`)
+			.then(function (response) {
+				dispatch(ordersLoaded(response.data));
+				console.log(response.data);
+			});
+	}, []);
+
+  const orders = useSelector((state) => state.order.orders);
+  console.log(orders);
+	return (
+		<div style={{ padding: "20px" }}>
+			<Typography variant="h4" gutterBottom>
+				Grooming History
+			</Typography>
+			<TableContainer component={Paper} style={{ width: "100%" }}>
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell>ID</TableCell>
+							<TableCell>Pet Name</TableCell>
+							<TableCell>Service</TableCell>
+							<TableCell>Date</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{groomingHistory.map((historyEntry) => (
+							<TableRow key={historyEntry.id}>
+								<TableCell>{historyEntry.id}</TableCell>
+								<TableCell>{historyEntry.petName}</TableCell>
+								<TableCell>{historyEntry.service}</TableCell>
+								<TableCell>{formatDateString(historyEntry.date)}</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
+		</div>
+	);
 };
 
 export default HistoryPage;

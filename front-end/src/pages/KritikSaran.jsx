@@ -15,6 +15,15 @@ import {
   MenuItem,
   Select,
 } from '@mui/material';
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { petsLoaded } from "../apps/petSlice";
+import { usersLoaded } from "../apps/userSlice";
+import { useForm } from "react-hook-form";
+import { reviewsAdded, reviewsLoaded } from "../apps/reviewSlice";
+import { joiResolver } from "@hookform/resolvers/joi";
+import Joi from "joi";
 import StarIcon from '@mui/icons-material/Star';
 
 // mandi
@@ -23,29 +32,66 @@ import StarIcon from '@mui/icons-material/Star';
 // potong bulu
 // grooming (semua)
 
-const reviews = [
-  { id: 1, name: 'John Doe', rating: 3, kritik: 'Great product, highly recommended!', saran: 'ini saran', category: 'Mandi' },
-  { id: 2, name: 'Jane Smith', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', category: 'Mandi' },
-  { id: 3, name: 'Jane a', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', category: 'Potong Bulu' },
-  { id: 4, name: 'Jane b', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', category: 'Basmi Kutu' },
-  { id: 5, name: 'Jane c', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', category: 'Grooming' },
-  { id: 6, name: 'Jane d', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', category: 'Mandi' },
-  { id: 7, name: 'Jane e', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', category: 'Potong kuku' },
-];
+// const reviewss = [
+//   { id: 1, name: 'John Doe', rating: 3, kritik: 'Great product, highly recommended!', saran: 'ini saran', kategori: 'Mandi' },
+//   { id: 2, name: 'Jane Smith', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Mandi' },
+//   { id: 3, name: 'Jane a', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Potong Bulu' },
+//   { id: 4, name: 'Jane b', rating: 4, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Basmi Kutu' },
+//   { id: 5, name: 'Jane c', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Grooming' },
+//   { id: 6, name: 'Jane d', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Mandi' },
+//   { id: 7, name: 'Jane e', rating: 5, kritik: 'Excellent service and quality.', saran: 'ini saran', kategori: 'Potong kuku' },
+// ];
 
-const KritikSaran = () => {
+export default function KritikSaran() {
+  const[filteredOrders, setFilteredOrders] = useState([]);
+
+  const dispatch = useDispatch();
+	useEffect(() => {
+		axios
+			.get(`${import.meta.env.VITE_API_URL}/api/order`)
+			.then(function (response) {
+        const allOrders = response.data;
+        const filteredOrders = allOrders.filter(order => order.status === true )
+        setFilteredOrders(filteredOrders)
+				dispatch(ordersLoaded(response.data));
+				console.log(response.data);
+			});
+		axios
+			.get(`${import.meta.env.VITE_API_URL}/api/user`)
+			.then(function (response) {
+				dispatch(usersLoaded(response.data));
+				console.log(response.data);
+			});
+    axios
+    .get(`${import.meta.env.VITE_API_URL}/api/review`)
+    .then(function (response) {
+      dispatch(reviewsLoaded(response.data));
+      console.log(response.data);
+    });
+	}, []);
+
+  const orders = useSelector((state) => state.order.orders);
+	const users = useSelector((state) => state.user.users);
+	const reviews = useSelector((state) => state.review.reviews);
+
   const [sortBy, setSortBy] = useState(null);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [jumlahDisplay, setJumlahDisplay] = useState(6);
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   const [showForm, setShowForm] = useState(false);
+
+  // const ReviewSchema = (name) => {
+	// 	const reviewsCek = reviews.find((reviewsCek) => user.nama === name);
+	// 	if (reviewsCek) return true;
+	// 	return false;
+	// };
+
   const [newReview, setNewReview] = useState({
     name: '',
     rating: '',
     kritik: '',
     saran: '',
-    category: 'Grooming', // Default category for new reviews
   });
 
   const handleChange = (e) => {
@@ -64,18 +110,51 @@ const KritikSaran = () => {
     setSelectedCategory(event.target.value);
   };
 
-  const handleSubmitReview = () => {
+  // const handleCheck = (event) => {
+  //   if (!userOrder) {
+  //     alert("To access, an appointment needs to be completed first");
+	// 		return;
+  //   }
+  // };
+
+  const handleSubmitReview = async (e) => {
+		e.preventDefault();
+    if (
+			!newReview.name ||
+			!newReview.rating ||
+			!newReview.kritik ||
+			!newReview.saran
+		) {
+			alert("Please fill in all fields");
+			return;
+		}
+
+    // if (!ReviewSchema(newReview.name)) return alert("Name is not registered");
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const order = JSON.parse(localStorage.getItem("order"));
+
+		try {
+      console.log("a");
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/review`, {
+        id_user: user._id,
+        id_order: order._id,
+				rating: newReview.rating,
+				kritik: newReview.kritik,
+        saran: newReview.saran
+			});
+      console.log("a");
+			setNewReview({
+        name: '',
+        rating: '',
+        kritik: '',
+        saran: '',
+      });
+    } catch (error) {
+			console.error(error);
+			alert("Submission failed. Please try again.");
+		}
     // Handle submitting the new review (e.g., send it to an API)
-    console.log('Submitting review:', newReview);
-    // Reset the form after submission
-    setNewReview({
-      name: '',
-      rating: '',
-      kritik: '',
-      saran: '',
-      category: 'Grooming',
-    });
-    // Hide the form after submission
     setShowForm(false);
   };
 
@@ -92,15 +171,17 @@ const KritikSaran = () => {
 
   const filteredReviews = selectedCategory === 'All'
     ? sortedReviews
-    : sortedReviews.filter(review => review.category === selectedCategory);
+    : sortedReviews.filter(review => review.details.includes( selectedCategory));
 
   const displayedReviews =
     showAllReviews || filteredReviews.length <= jumlahDisplay
       ? filteredReviews
       : filteredReviews.slice(0, jumlahDisplay);
 
-  const categories = Array.from(new Set(reviews.map(review => review.category)));
+  const categories = ["Mandi", "Potong Kuku", "Membersihkan Kutu", "Potong Rambut/Bulu"];
   categories.unshift('All');
+
+  const userOrder = filteredOrders.filter(order => order.id_user === localStorage('user')._id);
 
   return (
     <React.Fragment>
@@ -115,9 +196,9 @@ const KritikSaran = () => {
         {/* BUTTON SORT-------- */}
         <Box sx={{ textAlign: 'right', mb: 2 }}>
           Sort : 
-          <Button onClick={() => handleSort('lowest')}>by Lowest</Button>
-          <Button onClick={() => handleSort('highest')}>by Highest</Button>
-          <Button onClick={() => handleSort('lastAdded')}>by Recent added</Button>
+          <Button onClick={() => handleSort('lowest')}>by Lowest rating</Button>
+          <Button onClick={() => handleSort('highest')}>by Highest rating</Button>
+          <Button onClick={() => handleSort('lastAdded')}>by Recently added</Button>
         </Box>
         {/* ----------------- */}
 
@@ -128,9 +209,9 @@ const KritikSaran = () => {
             value={selectedCategory}
             onChange={handleCategoryChange}
           >
-            {categories.map((category) => (
-              <MenuItem key={category} value={category}>
-                {category}
+            {categories.map((details) => (
+              <MenuItem key={details} value={details}>
+                {details}
               </MenuItem>
             ))}
           </Select>
@@ -168,14 +249,16 @@ const KritikSaran = () => {
           </Box>
         )}
         
-        {/* BUTTON SHOW FORM */}
-        {!showForm && (
-          <Box sx={{ my: 3, textAlign: 'center' }}>
-            <Button variant="contained" color="primary" onClick={()=>setShowForm(true)}>
-              Buat Kritik dan Saran?
-            </Button>
-          </Box>
-        )}
+        {/* BUTTON SHOW FORM (bingung di sini)*/}
+        {/* {!userOrder && ( */}
+          {!showForm && (
+            <Box sx={{ my: 3, textAlign: 'center' }}>
+              <Button variant="contained" color="primary" onClick={()=>setShowForm(true)}>
+                Buat Kritik dan Saran
+              </Button>
+            </Box>
+          )}
+        {/* } */}
 
         {showForm && (
         <Box sx={{ my: 3, textAlign: 'center' }}>
@@ -229,5 +312,3 @@ const KritikSaran = () => {
     </React.Fragment>
   );
 };
-
-export default KritikSaran;

@@ -19,7 +19,6 @@ const UpcomingAppointmentCard = ({appointment}) => {
             details.map((detail) => (
               <>
                 {detail.id_pet}
-                {", "}
               </>
             ))
           }

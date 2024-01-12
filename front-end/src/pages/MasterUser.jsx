@@ -39,7 +39,7 @@ import {
 	usersBanned,
 	userUnbanned,
 } from "../apps/userSlice";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 
@@ -115,18 +115,20 @@ TablePaginationActions.propTypes = {
 export default function MasterUser() {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		axios.get(`${import.meta.env.VITE_API_URL}/api/user`).then(function (response) {
-			dispatch(usersLoaded(response.data));
-			console.log(response.data);
-		});
+		axios
+			.get(`${import.meta.env.VITE_API_URL}/api/user`)
+			.then(function (response) {
+				dispatch(usersLoaded(response.data));
+				console.log(response.data);
+			});
 	}, []);
 	const rows = useSelector((state) => state.user.users);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 	const [EditUser, setEditUser] = useState(false);
 	const [User, setUser] = useState(null);
-	const [Image, setImage] = useState();
-	const [SaveImage, setSaveImage] = useState();
+	// const [Image, setImage] = useState();
+	// const [SaveImage, setSaveImage] = useState();
 
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -141,12 +143,12 @@ export default function MasterUser() {
 	};
 
 	const onSubmit = (data) => {
-		data.profile = SaveImage;
+		// data.profile = SaveImage;
 		dispatch(usersUpdated(data));
 		setEditUser(false);
 		setUser(null);
-		setImage(null);
-		setSaveImage(null);
+		// setImage(null);
+		// setSaveImage(null);
 		window.location.reload();
 	};
 
@@ -174,122 +176,140 @@ export default function MasterUser() {
 		},
 	});
 
+	const [searchQuery, setSearchQuery] = useState("");
+	const handleSearchChange = (event) => {
+		setSearchQuery(event.target.value);
+	};
+
 	if (!EditUser) {
 		return (
-			<TableContainer
-				component={Paper}
-				sx={{ overflowX: "auto", maxWidth: 1000, minWidth: 1000, mt: 3 }}
-			>
-				<Table>
-					<TableHead>
-						<TableRow>
-							<TableCell sx={{ fontWeight: "bold" }}>Profile</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Nama</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Username</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Email</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Nomer Hp</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Kota</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Alamat</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{(rowsPerPage > 0
-							? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-							: rows
-						).map((row) => (
-							<TableRow key={row._id}>
-								<TableCell>
-									<img
-										src={
-											import.meta.env.VITE_API_URL + "/static/" + row.profile
-										}
-										width={200}
-									/>
-								</TableCell>
-								<TableCell>{row.nama}</TableCell>
-								<TableCell>{row.username}</TableCell>
-								<TableCell>{row.email}</TableCell>
-								<TableCell>{row.no_hp}</TableCell>
-								<TableCell>{row.kota}</TableCell>
-								<TableCell>{row.alamat}</TableCell>
-								<TableCell>
-									{row.status == "active" ? (
-										<Typography color="green" sx={{ fontWeight: "bold" }}>
-											ACTIVE
-										</Typography>
-									) : row.status == "nonactive" ? (
-										<Typography color="red" sx={{ fontWeight: "bold" }}>
-											NONACTIVE
-										</Typography>
-									) : (
-										<Typography color="red" sx={{ fontWeight: "bold" }}>
-											BANNED
-										</Typography>
-									)}
-								</TableCell>
-								<TableCell>
-									<Button
-										onClick={() => {
-											setEditUser(true);
-											setUser(row);
-										}}
-									>
-										<Edit />
-									</Button>
-									{row.status == "nonactive" && (
-										<Button
-											onClick={() => {
-												dispatch(usersDeleted(row._id));
-												window.location.reload();
-											}}
-										>
-											<Delete />
-										</Button>
-									)}
-									{row.status == "active" ? (
-										<Button
-											onClick={() => {
-												dispatch(usersBanned(row._id));
-												window.location.reload();
-											}}
-										>
-											<Block />
-										</Button>
-									) : (
-										<Button
-											onClick={() => {
-												dispatch(userUnbanned(row._id));
-												window.location.reload();
-											}}
-										>
-											<CheckCircle />
-										</Button>
-									)}
-								</TableCell>
+			<>
+				<TextField
+					label="Search"
+					value={searchQuery}
+					onChange={handleSearchChange}
+					fullWidth
+					color="success"
+					sx={{ mt: 3 }}
+				/>
+				<TableContainer
+					component={Paper}
+					sx={{ overflowX: "auto", maxWidth: 1000, minWidth: 1000, mt: 3 }}
+				>
+					<Table>
+						<TableHead>
+							<TableRow>
+								<TableCell sx={{ fontWeight: "bold" }}>Profile</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Nama</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Username</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Email</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Nomer Hp</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Kota</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Alamat</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
 							</TableRow>
-						))}
-						{emptyRows > 0 && (
-							<TableRow style={{ height: 53 * emptyRows }}>
-								<TableCell colSpan={6} />
+						</TableHead>
+						<TableBody>
+							{(rowsPerPage > 0
+								? rows.slice(
+										page * rowsPerPage,
+										page * rowsPerPage + rowsPerPage,
+								  )
+								: rows
+							).map((row) => (
+								<TableRow key={row._id}>
+									<TableCell>
+										<img
+											src={
+												import.meta.env.VITE_API_URL + "/static/" + row.profile
+											}
+											width={200}
+										/>
+									</TableCell>
+									<TableCell>{row.nama}</TableCell>
+									<TableCell>{row.username}</TableCell>
+									<TableCell>{row.email}</TableCell>
+									<TableCell>{row.no_hp}</TableCell>
+									<TableCell>{row.kota}</TableCell>
+									<TableCell>{row.alamat}</TableCell>
+									<TableCell>
+										{row.status == "active" ? (
+											<Typography color="green" sx={{ fontWeight: "bold" }}>
+												ACTIVE
+											</Typography>
+										) : row.status == "nonactive" ? (
+											<Typography color="red" sx={{ fontWeight: "bold" }}>
+												NONACTIVE
+											</Typography>
+										) : (
+											<Typography color="red" sx={{ fontWeight: "bold" }}>
+												BANNED
+											</Typography>
+										)}
+									</TableCell>
+									<TableCell>
+										<Button
+											onClick={() => {
+												setEditUser(true);
+												setUser(row);
+											}}
+										>
+											<Edit />
+										</Button>
+										{row.status == "nonactive" && (
+											<Button
+												onClick={() => {
+													dispatch(usersDeleted(row._id));
+													window.location.reload();
+												}}
+											>
+												<Delete />
+											</Button>
+										)}
+										{row.status == "active" ? (
+											<Button
+												onClick={() => {
+													dispatch(usersBanned(row._id));
+													window.location.reload();
+												}}
+											>
+												<Block />
+											</Button>
+										) : (
+											<Button
+												onClick={() => {
+													dispatch(userUnbanned(row._id));
+													window.location.reload();
+												}}
+											>
+												<CheckCircle />
+											</Button>
+										)}
+									</TableCell>
+								</TableRow>
+							))}
+							{emptyRows > 0 && (
+								<TableRow style={{ height: 53 * emptyRows }}>
+									<TableCell colSpan={6} />
+								</TableRow>
+							)}
+						</TableBody>
+						<TableFooter>
+							<TableRow>
+								<TablePagination
+									rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+									count={rows.length}
+									rowsPerPage={rowsPerPage}
+									page={page}
+									onPageChange={handleChangePage}
+									onRowsPerPageChange={handleChangeRowsPerPage}
+									ActionsComponent={TablePaginationActions}
+								/>
 							</TableRow>
-						)}
-					</TableBody>
-					<TableFooter>
-						<TableRow>
-							<TablePagination
-								rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-								count={rows.length}
-								rowsPerPage={rowsPerPage}
-								page={page}
-								onPageChange={handleChangePage}
-								onRowsPerPageChange={handleChangeRowsPerPage}
-								ActionsComponent={TablePaginationActions}
-							/>
-						</TableRow>
-					</TableFooter>
-				</Table>
-			</TableContainer>
+						</TableFooter>
+					</Table>
+				</TableContainer>
+			</>
 		);
 	} else {
 		return (
@@ -333,16 +353,16 @@ export default function MasterUser() {
 					{...register("kota")}
 				/>
 				<br />
-				<img src={Image} style={{ width: 100, margin: 10 }} />
-				<TextField
+				{/* <img src={Image} style={{ width: 100, margin: 10 }} /> */}
+				{/* <TextField
 					sx={{ width: 475, m: 1 }}
 					type="file"
 					onChange={(event) => {
 						setImage(URL.createObjectURL(event.target.files[0]));
 						setSaveImage(event.target.files[0]);
 					}}
-				/>
-				<br />
+				/> */}
+				{/* <br /> */}
 				<TextField
 					sx={{ width: 475, m: 1 }}
 					type="password"

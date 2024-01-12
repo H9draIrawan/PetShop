@@ -23,14 +23,14 @@ export const userSlice = createSlice({
 					no_hp: action.payload.no_hp,
 				},
 			);
-			const formData = new FormData();
-			formData.append("profile", action.payload.profile);
-			axios.post(
-				`${import.meta.env.VITE_API_URL}/api/user/profile/${
-					action.payload._id
-				}`,
-				formData,
-			);
+			// const formData = new FormData();
+			// formData.append("profile", action.payload.profile);
+			// axios.post(
+			// 	`${import.meta.env.VITE_API_URL}/api/user/profile/${
+			// 		action.payload._id
+			// 	}`,
+			// 	formData,
+			// );
 		},
 		usersDeleted: (state, action) => {
 			axios.delete(
