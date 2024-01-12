@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import bgRegister from "../assets/bgRegister.svg";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -52,7 +53,7 @@ const Login = () => {
 
 	return (
 		<>
-			{/* <Navbar /> */}
+			<Navbar />
 			<div
 				style={{
 					backgroundImage: `url(${bgRegister})`,
@@ -62,12 +63,13 @@ const Login = () => {
 					alignItems: "center",
 					justifyContent: "center",
 					height: "100vh",
+					zIndex: "-2"
 				}}
 			>
 				<Container component="main">
-					<Button variant="contained" sx={{ mb: 10 }}>
+					{/* <Button variant="contained" sx={{ mb: 10 }}>
 						<Link to="/home">HOME</Link>
-					</Button>
+					</Button> */}
 					<Paper
 						elevation={3}
 						style={{
@@ -75,7 +77,7 @@ const Login = () => {
 							flexDirection: "column",
 							alignItems: "center",
 						}}
-						sx={{ mx: 40, px: 5, py: 3 }}
+						sx={{ mx: 40, px: 5, py: 3, my: 0 }}
 					>
 						<Typography variant="h4">Login</Typography>
 						<Box style={{ width: "100%" }}>
@@ -115,7 +117,7 @@ const Login = () => {
 					</Paper>
 					<Typography
 						variant="body1"
-						style={{ marginTop: 10, textAlign: "right" }}
+						style={{ marginTop: 10, textAlign: "right", marginRight: "20rem" }}
 					>
 						Belum punya akun?{" "}
 						<NavLink

@@ -70,7 +70,17 @@ const Navbar = () => {
 				) : (
 					<RouterLink
 						to="/login"
-						style={{ color: grey[800], marginLeft: "120px" }}
+						style={{ 
+							color: "whitesmoke", 
+							marginLeft: "120px", 
+							paddingTop: "5px",
+							paddingBottom: "5px",
+							paddingLeft: "20px", 
+							paddingRight: "20px", 
+							backgroundColor: "#1976D2",
+							border: "none",
+							borderRadius: "5px",
+						}}
 					>
 						LOGIN
 					</RouterLink>
@@ -85,8 +95,8 @@ const Navbar = () => {
 						<NavigationLink to="kritik-saran" text="Kritik dan Saran" />
 					</Typography>
 				)}
-
-				<Typography>WA Us +62 8242 29384 2301</Typography>
+				
+				<Typography sx={{ marginLeft: 'auto', mt: 0 }}>WA Us +62 8242 29384 2301</Typography>	
 			</Toolbar>
 		</AppBar>
 	);

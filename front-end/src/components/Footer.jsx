@@ -16,7 +16,7 @@ export default function Footer() {
 
   return (
         <Box sx={{ flexGrow: 1, height: 500, padding: 10}}>
-            <Grid container spacing={2} pb={8} sx={{borderBottom: "1px dashed #a0a0a0"}}>
+            <Grid container spacing={2} pt={8} sx={{borderTop: "1px dashed #a0a0a0"}}>
                 <Grid item xs={4}>
                     <img src={logo} alt="" style={{maxWidth: 200, paddingBottom: 10}}/>
                     <Typography fontSize={30}>

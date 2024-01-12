@@ -13,6 +13,7 @@ import bgRegister from "../assets/bgRegister.svg";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { usersLoaded } from "../apps/userSlice";
+import Navbar from "../components/Navbar";
 
 const Register = () => {
 	const navigate = useNavigate();
@@ -98,7 +99,7 @@ const Register = () => {
 
 	return (
 		<>
-			{/* <Navbar /> */}
+			<Navbar />
 			<div
 				style={{
 					backgroundImage: `url(${bgRegister})`,
@@ -108,13 +109,14 @@ const Register = () => {
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center",
+					zIndex: "-2"
 				}}
 			>
 				<Container component="main">
-					<Button variant="contained" sx={{ mt: 3 }}>
+					{/* <Button variant="contained" sx={{ mt: 3 }}>
 						<Link to="/home">HOME</Link>
-					</Button>
-					<Paper sx={{ mt: 5, mb: 5, mx: 30, py: 3 }} elevation={3}>
+					</Button> */}
+					<Paper sx={{ mt: 5, mb: 1, mx: 30, py: 3 }} elevation={3}>
 						<Typography variant="h4" sx={{ textAlign: "center" }}>
 							Register
 						</Typography>
@@ -201,7 +203,7 @@ const Register = () => {
 					</Paper>
 					<Typography
 						variant="body1"
-						style={{ textAlign: "right", margin: 30 }}
+						style={{ textAlign: "right", marginRight: "15rem", marginTop: 0 }}
 					>
 						Sudah punya akun?{" "}
 						<NavLink
