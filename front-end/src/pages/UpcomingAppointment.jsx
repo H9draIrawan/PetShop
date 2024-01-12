@@ -1,26 +1,7 @@
-import React from 'react';
 import { Card, CardContent, Typography, Divider, Grid } from '@mui/material';
 
-interface IUpcomingAppointmentProps {
-  appointment: {
-    details: [
-      {
-        _id: false,
-        id_pet: string,
-        kategori: [String],
-        harga: Number,
-      },
-    ],
-    tanggal: Date,
-    status: {
-      type: Boolean,
-      default: false,
-    },
-  }
-}
-
-const UpcomingAppointmentCard = (props: IUpcomingAppointmentProps) => {
-  const { details, tanggal, status } = props.appointment;
+const UpcomingAppointmentCard = ({appointment}) => {
+  const { details, tanggal, status } = appointment;
 
   const providedDate = new Date(tanggal);
 

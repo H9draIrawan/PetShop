@@ -1,216 +1,179 @@
-import { Outlet } from "react-router-dom";
+import {useState, useEffect} from 'react';
 import {
-    Button,
-    Box,
-    Card,
-    Typography as Text,
-    TextField, 
-    Container
-  } from "@mui/material";
-import { Formik, Form } from "formik";
-import { Link } from "react-router-dom";
+  Button,
+  Box,
+  Typography as Text,
+  TextField,
+  Container,
+  // Snackbar
+} from "@mui/material";
+import { useForm } from "react-hook-form";
 import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {usersUpdated} from "../apps/userSlice";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 
-const SignupSchema = Yup.object().shape({
-    fullname: Yup.string().required(),
-    username: Yup.string().required(),
-    email: Yup.string().email().required(),
-    alamat: Yup.string().required(),
-    kota: Yup.string().required(),
-    no_telp: Yup.number().required(),
-    password: Yup.string().required().min(8, "Password too short"),
-    confirm_password: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Passwords don't match")
-      .required("Password confirm is required"),
-  });
+const userSchema = Yup.object({
+  nama: Yup.string().required(),
+  username: Yup.string().required(),
+  email: Yup.string().email().required(),
+  alamat: Yup.string().required(),
+  kota: Yup.string().required(),
+  no_hp: Yup.number().required(),
+}).required();
 
 export default function Detail() {
-    return(
-        <>
-            {/* <h1>Dashboard</h1>
-            <Outlet/> */}
-            
-                <Container maxWidth="sm" style={{ paddingTop:"0px" }}>
-                    <Box paddingX={2} width={"200%"}>
-                        
-                            <Formik
-                                initialValues={{
-                                fullname: "",
-                                username: "",
-                                email: "",
-                                password: "",
-                                confirm_password: "",
-                                }}
-                                validationSchema={SignupSchema}
-                                onSubmit={(values) => {
-                                console.log(values);
-                                }}
-                            >
-                                {({
-                                errors,
-                                touched,
-                                values,
-                                handleChange,
-                                handleBlur,
-                                isValid,
-                                }) => (
-                                <Form>
-                                    <Box display={"flex"}>
-                                        <Box width={"100%"} marginRight={3}>
-                                            <Text gutterBottom> Nama Lengkap</Text>
-                                            <TextField
-                                            id="fullname-input"
-                                            type="text"
-                                            name="fullname"
-                                            margin="dense"
-                                            variant="outlined"
-                                            value={values.fullname}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            error={touched.fullname && Boolean(errors.fullname)}
-                                            helperText={touched.fullname && errors.fullname}
-                                            fullWidth
-                                            />
-                                        </Box>
-                                        <Box marginX={"auto"} width={"100%"}>
-                                            <Text gutterBottom>Username </Text>
-                                            <TextField
-                                            id="username-input"
-                                            type="text"
-                                            name="username"
-                                            margin="dense"
-                                            variant="outlined"
-                                            value={values.username}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            error={touched.username && Boolean(errors.username)}
-                                            helperText={touched.username && errors.username}
-                                            fullWidth
-                                            />
-                                        </Box>
-                                    </Box>
+  const dispatch = useDispatch();
+  const [profileData, setProfileData] = useState(null);
+  // const [toastSuccess, setToastSuccess] = useState(false);
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      alamat: "",
+      email: "",
+      kota: "",
+      nama: "",
+      no_hp: "",
+      username: "",
+    },
+    values: profileData,
+    resolver: yupResolver(userSchema),
+  });
 
-                                    <Text gutterBottom marginTop={2}>Email </Text>
-                                    <TextField
-                                        id="email-input"
-                                        type="email"
-                                        name="email"
-                                        margin="dense"
-                                        variant="outlined"
-                                        value={values.email}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        error={touched.email && Boolean(errors.email)}
-                                        helperText={touched.email && errors.email}
-                                        fullWidth
-                                    />
+  useEffect(() => {
+    const localUserData = JSON.parse(localStorage.getItem("user"));
+    const getUserData = async () =>{ 
+      const data = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/${localUserData._id}`)
+  
+      setProfileData(data.data);
+    };
 
-                                    <Text gutterBottom marginTop={2}>Alamat  </Text>
-                                    <TextField
-                                        id="alamat-input"
-                                        type="text"
-                                        name="alamat"
-                                        margin="dense"
-                                        variant="outlined"
-                                        value={values.alamat}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        error={touched.alamat && Boolean(errors.alamat)}
-                                        helperText={touched.alamat && errors.alamat}
-                                        fullWidth
-                                    />
+    getUserData();
+  }, []);
 
-                                    <Box display={"flex"}>
-                                        <Box width={"100%"} marginRight={3}>
-                                            <Text gutterBottom marginTop={2}>Kota  </Text>
-                                            <TextField
-                                                id="kota-input"
-                                                type="text"
-                                                name="kota"
-                                                margin="dense"
-                                                variant="outlined"
-                                                value={values.kota}
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                error={touched.kota && Boolean(errors.kota)}
-                                                helperText={touched.kota && errors.kota}
-                                                fullWidth
-                                            />
-                                        </Box>
+  useEffect(() => {
+    console.log("errors:", errors);
+  }, [errors]);
 
-                                        <Box marginX={"auto"} width={"100%"}>
-                                            <Text gutterBottom marginTop={2}>Nomor Telepon  </Text>
-                                            <TextField
-                                                id="no_hp-input"
-                                                type="text"
-                                                name="no_hp"
-                                                margin="dense"
-                                                variant="outlined"
-                                                value={values.no_hp}
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                error={touched.no_hp && Boolean(errors.no_hp)}
-                                                helperText={touched.no_hp && errors.no_hp}
-                                                fullWidth
-                                            />
-                                        </Box>
-                                    </Box>
+  const onSubmit = (data) => {    
+		dispatch( usersUpdated(data));
+  }
 
+  return (
+    <>
+      <Container maxWidth="sm" style={{ paddingTop: "0px" }}>
+        <Box paddingX={2} width={"200%"}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Box display={"flex"}>
+                  <Box width={"100%"} marginRight={3}>
+                    <Text gutterBottom> Nama</Text>
+                    <TextField
+                      id="fullname-input"
+                      type="text"
+                      name="fullname"
+                      margin="dense"
+                      variant="outlined"
+                      error={errors.nama?.message}
+                      helperText={errors.nama?.message}
+                      fullWidth
+                      {...register("nama")}
+                    />
+                  </Box>
+                  <Box marginX={"auto"} width={"100%"}>
+                    <Text gutterBottom>Username </Text>
+                    <TextField
+                      id="username-input"
+                      type="text"
+                      name="username"
+                      margin="dense"
+                      variant="outlined"
+                      error={errors.username?.message}
+                      helperText={errors.username?.message}
+                      fullWidth
+                      {...register("username")}
+                    />
+                  </Box>
+                </Box>
 
-                                    {/* <TextField
-                                    id="new-password"
-                                    type="password"
-                                    name="password"
-                                    label="Password"
-                                    margin="dense"
-                                    variant="outlined"
-                                    value={values.password}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={touched.password && Boolean(errors.password)}
-                                    helperText={touched.password && errors.password}
-                                    fullWidth
-                                    />
-                                    <TextField
-                                    id="new-password-confirm"
-                                    type="password"
-                                    name="confirm_password"
-                                    label="Confirm Password"
-                                    margin="dense"
-                                    variant="outlined"
-                                    value={values.confirm_password}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={
-                                        touched.confirm_password &&
-                                        Boolean(errors.confirm_password)
-                                    }
-                                    helperText={
-                                        touched.confirm_password && errors.confirm_password
-                                    }
-                                    fullWidth
-                                    /> */}
-                                    <Box marginTop={1} />
-                                    <Button
-                                    variant="contained"
-                                    color="primary"
-                                    type="submit"
-                                    disabled={!isValid}
-                                    style={{ width: "100px", marginTop: "10px" }}
-                                    >
-                                        Edit
-                                    </Button>
-                                </Form>
-                                )}
-                            </Formik>
+                <Text gutterBottom marginTop={2}>Email </Text>
+                <TextField
+                  id="email-input"
+                  type="email"
+                  name="email"
+                  margin="dense"
+                  variant="outlined"
+                  error={errors.email?.message}
+                  helperText={errors.email?.message}
+                  fullWidth
+                  {...register("email")}
+                />
 
-                        {/* <Text gutterBottom>
-                            <Link to="/register" style={{ textDecoration: "none" }}>
-                                Already have an account
-                            </Link>
-                        </Text> */}
-                    </Box>
-                </Container>
-        </>
-    )
+                <Text gutterBottom marginTop={2}>Alamat  </Text>
+                <TextField
+                  id="alamat-input"
+                  type="text"
+                  name="alamat"
+                  margin="dense"
+                  variant="outlined"
+                  error={errors.alamat?.message}
+                  helperText={errors.alamat?.message}
+                  fullWidth
+                  {...register("alamat")}
+                />
+
+                <Box display={"flex"}>
+                  <Box width={"100%"} marginRight={3}>
+                    <Text gutterBottom marginTop={2}>Kota  </Text>
+                    <TextField
+                      id="kota-input"
+                      type="text"
+                      name="kota"
+                      margin="dense"
+                      variant="outlined"
+                      error={errors.kota?.message}
+                      helperText={errors.kota?.message}
+                      fullWidth
+                      {...register("kota")}
+                    />
+                  </Box>
+
+                  <Box marginX={"auto"} width={"100%"}>
+                    <Text gutterBottom marginTop={2}>Nomor Telepon  </Text>
+                    <TextField
+                      id="no_hp-input"
+                      type="text"
+                      name="no_hp"
+                      margin="dense"
+                      variant="outlined"
+                      error={errors.no_hp?.message}
+                      helperText={errors.no_hp?.message}
+                      fullWidth
+                      {...register("no_hp")}
+                    />
+                  </Box>
+                </Box>
+                <Box marginTop={1} />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  disabled={Object.keys(errors).length > 0}
+                  style={{ width: "100px", marginTop: "10px" }}
+                >
+                  Edit
+                </Button>
+              </form>
+
+              {
+                // snackbar on success edit
+              }
+              {/* <Snackbar
+                open={toastSuccess}
+                autoHideDuration={1500}
+                message="Success Edit Profile"
+              /> */}
+        </Box>
+      </Container>
+    </>
+  )
 }
