@@ -55,7 +55,7 @@ export default function Profile() {
 				flexGrow: 1,
 				bgcolor: "background.paper",
 				display: "flex",
-				padding: "60px",
+				padding: "100px",
 			}}
 		>
 			<Tabs

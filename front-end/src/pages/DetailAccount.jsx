@@ -191,15 +191,26 @@ export default function Detail() {
                   Save
                 </Button>
                 :
-                <Button
+                <Box display={'flex'} justifyContent={'space-between'}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="button"
+                    style={{ width: "100px", marginTop: "10px"}}
+                    onClick={handleEdit}
+                  >
+                    Edit
+                  </Button>
+                  <Button
                   variant="contained"
-                  color="primary"
+                  color="error"
                   type="button"
-                  style={{ width: "100px", marginTop: "10px" }}
+                  style={{ width: "150px", marginTop: "10px"}}
                   onClick={handleEdit}
                 >
-                  Edit
+                  Delete Account
                 </Button>
+              </Box>
             }
           </form>
 
