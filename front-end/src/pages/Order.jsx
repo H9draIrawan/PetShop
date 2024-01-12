@@ -14,6 +14,8 @@ import {
 	TableHead,
 	TableRow,
 	TextField,
+	InputLabel,
+	Typography
 } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
@@ -85,70 +87,80 @@ export default function Order() {
 		<Container>
 			{!Form && (
 				<Stack>
-					<TableContainer sx={{ mt: 3 }}>
-						<TableHead>
-							<TableRow>
-								<TableCell sx={{ fontWeight: "bold", fontSize: 25 }}>
-									Nama
-								</TableCell>
-								<TableCell sx={{ fontWeight: "bold", fontSize: 25 }}>
-									Kategori
-								</TableCell>
-								<TableCell sx={{ fontWeight: "bold", fontSize: 25 }}>
-									Harga
-								</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{Details.map((detail, index) => (
-								<TableRow key={detail.id_pet}>
-									<TableCell sx={{ fontSize: 20, textTransform: "capitalize" }}>
-										{rows.filter((row) => row._id == detail.id_pet)[0]?.nama}
+					<Typography variant="h3" sx={{ m: 3, mb: 0 }}>
+						Order Grooming
+					</Typography>
+					<Box component="form" onSubmit={handleSubmit(onOrder)} >
+						<InputLabel style={{ marginTop: "2rem", marginLeft: "23px" }}>Tanggal Appoinment</InputLabel>
+						<TextField label type="date" sx={{ m: 3, mt: 0, mb: 1 }} {...register("tanggal")} />
+						<Button
+							variant="contained"
+							sx={{ m: 3, mt: 1.3 }}
+							onClick={() => setForm(true)}
+						>
+							Pilih Pet dan Grooming
+						</Button>
+						<br />
+						<Typography style={{ color:"#1B7FE4" }} variant="h6" sx={{ m: 3, mb: 0, mt: 1 }}>
+							KONFIRMASI ORDER
+						</Typography>
+						<TableContainer sx={{ mt: 0, ml: 3 }}>
+							<TableHead>
+								<TableRow>
+									<TableCell sx={{ fontWeight: "bold", fontSize: 25 }}>
+										Nama
 									</TableCell>
-									<TableCell sx={{ fontSize: 20, textTransform: "capitalize" }}>
-										{detail.kategori + ""}
+									<TableCell sx={{ fontWeight: "bold", fontSize: 25 }}>
+										Kategori
 									</TableCell>
-									<TableCell sx={{ fontSize: 20, textTransform: "capitalize" }}>
-										{detail.harga.toLocaleString("id-ID", {
-											style: "currency",
-											currency: "IDR",
-										})}
-									</TableCell>
-									<TableCell>
-										<Button
-											onClick={() =>
-												setDetails(
-													Details.filter((detail, idx) => idx != index),
-												)
-											}
-										>
-											<Delete />
-										</Button>
+									<TableCell sx={{ fontWeight: "bold", fontSize: 25 }}>
+										Harga
 									</TableCell>
 								</TableRow>
-							))}
-						</TableBody>
-					</TableContainer>
-
-					<Box component="form" onSubmit={handleSubmit(onOrder)}>
-						<TextField type="date" sx={{ m: 3 }} {...register("tanggal")} />
-						<br />
-						<Button type="submit" variant="contained" sx={{ m: 3, width: 100 }}>
-							Set Order
+							</TableHead>
+							<TableBody>
+								{Details.map((detail, index) => (
+									<TableRow key={detail.id_pet}>
+										<TableCell sx={{ fontSize: 20, textTransform: "capitalize" }}>
+											{rows.filter((row) => row._id == detail.id_pet)[0]?.nama}
+										</TableCell>
+										<TableCell sx={{ fontSize: 20, textTransform: "capitalize" }}>
+											{detail.kategori + ""}
+										</TableCell>
+										<TableCell sx={{ fontSize: 20, textTransform: "capitalize" }}>
+											{detail.harga.toLocaleString("id-ID", {
+												style: "currency",
+												currency: "IDR",
+											})}
+										</TableCell>
+										<TableCell>
+											<Button
+												onClick={() =>
+													setDetails(
+														Details.filter((detail, idx) => idx != index),
+													)
+												}
+											>
+												<Delete />
+											</Button>
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</TableContainer>
+						<Button type="submit" variant="contained" sx={{ m: 3, width: 100, mb: 1 }}>
+							Order
 						</Button>
 					</Box>
 
-					<Button
-						variant="contained"
-						sx={{ m: 3 }}
-						onClick={() => setForm(true)}
-					>
-						Tambah Order
-					</Button>
 				</Stack>
 			)}
 			{Form && (
 				<Box component="form" sx={{ m: 3 }} onSubmit={handleSubmit(onSubmit)}>
+					<Typography variant="h4">
+						Pilih Pet dan Grooming	
+					</Typography>
+					<InputLabel style={{ marginTop: "1rem" }}>Pilih Pet</InputLabel>
 					<Select sx={{ width: 400 }} {...register("pet")}>
 						{rows.map(
 							(row) =>
@@ -159,6 +171,10 @@ export default function Order() {
 								),
 						)}
 					</Select>
+					<Typography style={{ color:"#1B7FE4" }} variant="h6" sx={{ m: 3, mb: 0, mt: 0, ml: 0 }}>
+						
+					</Typography>
+					<InputLabel style={{ marginTop: "2rem" }}>Pilih Jenis Grooming</InputLabel>
 					<FormGroup sx={{ ml: 1 }}>
 						<FormControlLabel
 							control={<Checkbox value={"Mandi"} {...register("kategori")} />}
@@ -190,7 +206,10 @@ export default function Order() {
 			)}
 			{!Form && !Visible && (
 				<TableContainer sx={{ m: 3 }}>
-					<TableHead>
+					<Typography style={{ color:"#1B7FE4" }} variant="h6" sx={{ m: 3, mb: 0, mt: 0, ml: 0 }}>
+						ORDER YANG DIBUAT
+					</Typography>
+					<TableHead >
 						<TableRow>
 							<TableCell sx={{ fontWeight: "bold", fontSize: 25 }}>
 								Total
