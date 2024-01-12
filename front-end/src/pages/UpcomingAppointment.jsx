@@ -16,25 +16,28 @@ const UpcomingAppointmentCard = ({ appointment }) => {
 		return (
 			<Card variant="outlined">
 				<CardContent>
-					<Typography variant="h6" gutterBottom>
-						{details.map((detail) => (
-							<>{detail.id_pet}</>
-						))}
-					</Typography>
-					<Divider />
 					<Grid container spacing={3}>
 						<Grid item xs={12} sm={6}>
-							<Typography variant="body2" color="textSecondary" gutterBottom>
+							<Typography
+								variant="body1"
+								color="black"
+								sx={{ fontWeight: "bold" }}
+								gutterBottom
+							>
 								Date: {formattedDate}
 							</Typography>
 						</Grid>
 						<Grid item xs={12} sm={6}></Grid>
 					</Grid>
 					<Divider />
-					<Typography variant="body1">
+					<Typography variant="body2">
 						{details.map((detail, idx) => (
 							<>
-								{pets[idx].nama + ""} : {detail.kategori + ""}
+								{pets[idx]._id == detail.id_pet && (
+									<Typography>
+										{pets[idx].nama} : {detail.kategori + ""}
+									</Typography>
+								)}
 								<br />
 							</>
 						))}
