@@ -179,6 +179,7 @@ export default function MasterUser() {
 	if (!EditUser) {
 		return (
 			<>
+				<TextField></TextField>
 				<TableContainer
 					component={Paper}
 					sx={{ overflowX: "auto", maxWidth: 1000, minWidth: 1000, mt: 3 }}

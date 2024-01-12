@@ -44,7 +44,9 @@ export default function Dashboard() {
 			<Paper elevation={3} style={{ padding: "15px" }}>
 				{orders.length > 0 ? (
 					orders.map((order, idx) => (
-						<UpcomingAppointmentCard appointment={order} key={idx} />
+						<>
+							<UpcomingAppointmentCard appointment={order} key={idx} />
+						</>
 					))
 				) : (
 					<Typography fontSize={16}>There's no appoinments yet</Typography>
