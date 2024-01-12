@@ -92,11 +92,11 @@ export default function Footer() {
                                         primary="Perawatan Hewan"
                                     />
                                 </ListItem>
-                                <ListItem sx={{padding: 0}}>
+                                {/* <ListItem sx={{padding: 0}}>
                                     <ListItemText
                                         primary="Klinik Hewan"
                                     />
-                                </ListItem>
+                                </ListItem> */}
                             </List>
                         </Grid>
                     </Grid>

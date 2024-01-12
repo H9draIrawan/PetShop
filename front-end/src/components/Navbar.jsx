@@ -30,7 +30,7 @@ const Navbar = () => {
 			position="static"
 			sx={{ backgroundColor: "#fff", color: grey[800] }}
 		>
-			<Toolbar sx={{ justifyContent: "space-between" }}>
+			<Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 				<RouterLink
 					to="/home"
 					style={{
@@ -39,11 +39,21 @@ const Navbar = () => {
 						marginRight: "1rem",
 						fontSize: "30px",
 						paddingLeft: "0.8rem",
+						display: "flex",
+						alignItems: "center"
 					}}
 				>
 					<img src={logo} alt="logo" style={{ maxWidth: 150, padding: 8 }} />
 				</RouterLink>
 
+				{localStorage.getItem("user") && (
+					<Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: "center" }}>
+						<NavigationLink to="profile" text="Profile" />
+						<NavigationLink to="pet" text="Pet" />
+						<NavigationLink to="order" text="Order" />
+						<NavigationLink to="kritik-saran" text="Kritik dan Saran" />
+					</Typography>
+				)}
 				
 				{localStorage.getItem("user") ? (
 					<>
@@ -56,14 +66,14 @@ const Navbar = () => {
 							<Typography variant="h6">
 								Selamat Datang, {JSON.parse(localStorage.getItem("user")).nama}
 							</Typography>
-							<img
+							{/* <img
 								src={
 									import.meta.env.VITE_API_URL +
 									"/static/" +
 									JSON.parse(localStorage.getItem("user")).profile
 								}
 								style={{ width: "40px" }}
-							/>
+							/> */}
 							<Logout />
 						</Stack>
 					</>
@@ -85,19 +95,18 @@ const Navbar = () => {
 						LOGIN
 					</RouterLink>
 				)}
-			</Toolbar>
-			<Toolbar>
-				{localStorage.getItem("user") && (
-					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-						<NavigationLink to="profile" text="Profile" />
-						<NavigationLink to="pet" text="Pet" />
-						<NavigationLink to="order" text="Order" />
-						<NavigationLink to="kritik-saran" text="Kritik dan Saran" />
-					</Typography>
-				)}
-				
-				<Typography sx={{ marginLeft: 'auto', mt: 0 }}>WA Us +62 8242 29384 2301</Typography>	
-			</Toolbar>
+				</Toolbar>
+
+			
+				{/* <Toolbar
+					sx={{
+					display: "flex",
+					justifyContent: "flex-end",
+					marginTop: "-30px",
+					}}
+				>
+					<Typography sx={{ marginLeft: 'auto', mt: 0 }}>WA Us +62 8242 29384 2301</Typography>	
+				</Toolbar> */}
 		</AppBar>
 	);
 };

@@ -32,9 +32,6 @@ export const PetVariant = () => {
                 </Typography>
               </CardContent>
             </Box>
-            <IconButton aria-label="next">
-              <ArrowCircleRightIcon/>
-            </IconButton>
           </Card>
           <Card sx={{ display: 'flex', minWidth: 350, marginTop:5, backgroundColor: '#3366ff', color: 'white', borderRadius: 15, marginLeft: 5}}>
             <CardMedia
@@ -50,9 +47,6 @@ export const PetVariant = () => {
                 </Typography>
               </CardContent>
             </Box>
-            <IconButton aria-label="next">
-              <ArrowCircleRightIcon/>
-            </IconButton>
           </Card>
           <Card sx={{ display: 'flex', minWidth: 350, marginTop:5, backgroundColor: '#cc3333', color: 'white', borderRadius: 15, marginLeft: 5}}>
             <CardMedia
@@ -68,9 +62,6 @@ export const PetVariant = () => {
                 </Typography>
               </CardContent>
             </Box>
-            <IconButton aria-label="next">
-              <ArrowCircleRightIcon/>
-            </IconButton>
           </Card>
         </Box>
         <Box sx={{display: 'flex'}} justifyContent={'center'}>
@@ -88,9 +79,6 @@ export const PetVariant = () => {
                   </Typography>
                 </CardContent>
               </Box>
-              <IconButton aria-label="next">
-                <ArrowCircleRightIcon/>
-              </IconButton>
             </Card>
           </Box>
       </Container>

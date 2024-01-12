@@ -99,9 +99,10 @@ const Register = () => {
 
 	return (
 		<>
-			<Navbar />
+			<Navbar style={{ position: "relative", zIndex: 1}}/>
 			<div
 				style={{
+					position: "relative",
 					backgroundImage: `url(${bgRegister})`,
 					backgroundSize: "cover",
 					backgroundPosition: "center",
@@ -109,10 +110,10 @@ const Register = () => {
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center",
-					zIndex: "-2"
+					zIndex: "0"
 				}}
 			>
-				<Container component="main">
+				<Container component="main" style={{ position: "relative" , zIndex: 1}} >
 					{/* <Button variant="contained" sx={{ mt: 3 }}>
 						<Link to="/home">HOME</Link>
 					</Button> */}
