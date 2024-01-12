@@ -10,9 +10,9 @@ import {
 	TextField,
 	Typography,
 	InputLabel,
-	Card, 
+	Card,
 	CardContent,
-	CardMedia
+	CardMedia,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
@@ -80,48 +80,71 @@ export default function Pet() {
 	return (
 		<Container>
 			{!Form && (
-				<Stack sx={{mt:3}}>
-					{rows.map(
-						(row) => row.status && row.user._id == JSON.parse(localStorage.getItem("user"))._id && (
-							<Stack key={row._id} sx={{mb:3}}>
-								<Card sx={{ display: 'flex' , width: 380, justifyContent: 'space-between'}}>
-									<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-										<CardContent sx={{ flex: '1 0 auto' }}>
-											<Typography component="div" variant="h5">
-												{row.nama}
-											</Typography>
-											<Typography variant="subtitle1" color="text.secondary" component="div">
-												{row.umur} bulan
-											</Typography>
-											<Typography variant="subtitle1" color="text.secondary" component="div">
-												{row.jenis} : {row.ras}
-											</Typography>
-											<Button
-												onClick={() => {
-													setForm("edit");
-													setPet(row);
-												}}
-											>
-												<Edit />
-											</Button>
-											<Button onClick={() => dispatch(petsBanned(row._id))}>
-												<Delete />
-											</Button>
-										</CardContent>
-									</Box>
-									<CardMedia
-										component="img"
-										sx={{ width: 151 }}
-										image={import.meta.env.VITE_API_URL + "/static/" + row.profile}
-										alt="Live from space album cover"
-									/>
-								</Card>
-							</Stack>
-						),
-					)}
+				<Stack sx={{ mt: 3 }}>
+					<Stack direction="row" spacing={3}>
+						{rows.map(
+							(row) =>
+								row.status &&
+								row.user._id ==
+									JSON.parse(localStorage.getItem("user"))._id && (
+									<Stack key={row._id} sx={{ mb: 3 }}>
+										<Card
+											sx={{
+												display: "flex",
+												width: 380,
+												justifyContent: "space-between",
+											}}
+										>
+											<Box sx={{ display: "flex", flexDirection: "column" }}>
+												<CardContent sx={{ flex: "1 0 auto" }}>
+													<Typography component="div" variant="h5">
+														{row.nama}
+													</Typography>
+													<Typography
+														variant="subtitle1"
+														color="text.secondary"
+														component="div"
+													>
+														{row.umur} bulan
+													</Typography>
+													<Typography
+														variant="subtitle1"
+														color="text.secondary"
+														component="div"
+													>
+														{row.jenis} : {row.ras}
+													</Typography>
+													<Button
+														onClick={() => {
+															setForm("edit");
+															setPet(row);
+														}}
+													>
+														<Edit />
+													</Button>
+													<Button onClick={() => dispatch(petsBanned(row._id))}>
+														<Delete />
+													</Button>
+												</CardContent>
+											</Box>
+											<CardMedia
+												component="img"
+												sx={{ width: 151 }}
+												image={
+													import.meta.env.VITE_API_URL +
+													"/static/" +
+													row.profile
+												}
+												alt="Live from space album cover"
+											/>
+										</Card>
+									</Stack>
+								),
+						)}
+					</Stack>
 					<Button
 						variant="contained"
-						sx={{ m: 3 }}
+						sx={{ mt: 5 }}
 						onClick={() => setForm("add")}
 					>
 						Tambah Pet
@@ -155,9 +178,9 @@ export default function Pet() {
 					/>
 
 					<Box display={"flex"}>
-						<Box width={"100%"} >
+						<Box width={"100%"}>
 							<InputLabel style={{ marginTop: "15px" }}>Umur</InputLabel>
-							<Box display={'flex'} alignItems={'center'}>
+							<Box display={"flex"} alignItems={"center"}>
 								<TextField
 									// label="Umur"
 									style={{ marginTop: "0px" }}
@@ -165,7 +188,7 @@ export default function Pet() {
 									sx={{ width: 400, mt: 3 }}
 									{...register("umur")}
 								/>
-								<Typography sx={{marginLeft: 2}}>bulan</Typography>
+								<Typography sx={{ marginLeft: 2 }}>bulan</Typography>
 							</Box>
 						</Box>
 						<Box marginX={"auto"} width={"100%"}>
