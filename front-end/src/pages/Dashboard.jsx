@@ -39,7 +39,7 @@ export default function Dashboard() {
 	const filteredOrder = useMemo(() => {
 		if(orders.length <= 0) return [];
 
-		return orders.filter((order) => !order);
+		return orders.filter((order) => order);
 	}, [orders]);
 
 	return (
