@@ -34,13 +34,13 @@ const UpcomingAppointmentCard = ({ appointment }) => {
 					<Typography variant="body1">
 						{details.map((detail, idx) => (
 							<>
-								{detail.kategori + ""}
-                <br />
-								{pets[idx].nama + ""}
+								{pets[idx].nama + ""} : {detail.kategori + ""}
+								<br />
 							</>
 						))}
 					</Typography>
-					<Typography>
+					<Divider />
+					<Typography variant="body1">
 						{total.toLocaleString("id-ID", {
 							style: "currency",
 							currency: "IDR",
