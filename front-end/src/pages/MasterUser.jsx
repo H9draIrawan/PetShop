@@ -176,10 +176,23 @@ export default function MasterUser() {
 		},
 	});
 
+	const [searchQuery, setSearchQuery] = useState("");
+
+	const handleSearch = (event) => {
+		setSearchQuery(event.target.value);
+	};
+
 	if (!EditUser) {
 		return (
 			<>
-				<TextField></TextField>
+				<TextField
+					label="Search"
+					value={searchQuery}
+					onChange={handleSearch}
+					sx={{ mt: 3 }}
+					fullWidth
+					color="success"
+				/>
 				<TableContainer
 					component={Paper}
 					sx={{ overflowX: "auto", maxWidth: 1000, minWidth: 1000, mt: 3 }}
@@ -204,78 +217,85 @@ export default function MasterUser() {
 										page * rowsPerPage + rowsPerPage,
 								  )
 								: rows
-							).map((row) => (
-								<TableRow key={row._id}>
-									<TableCell>
-										<img
-											src={
-												import.meta.env.VITE_API_URL + "/static/" + row.profile
-											}
-											width={200}
-										/>
-									</TableCell>
-									<TableCell>{row.nama}</TableCell>
-									<TableCell>{row.username}</TableCell>
-									<TableCell>{row.email}</TableCell>
-									<TableCell>{row.no_hp}</TableCell>
-									<TableCell>{row.kota}</TableCell>
-									<TableCell>{row.alamat}</TableCell>
-									<TableCell>
-										{row.status == "active" ? (
-											<Typography color="green" sx={{ fontWeight: "bold" }}>
-												ACTIVE
-											</Typography>
-										) : row.status == "nonactive" ? (
-											<Typography color="red" sx={{ fontWeight: "bold" }}>
-												NONACTIVE
-											</Typography>
-										) : (
-											<Typography color="red" sx={{ fontWeight: "bold" }}>
-												BANNED
-											</Typography>
-										)}
-									</TableCell>
-									<TableCell>
-										<Button
-											onClick={() => {
-												setEditUser(true);
-												setUser(row);
-											}}
-										>
-											<Edit />
-										</Button>
-										{row.status == "nonactive" && (
-											<Button
-												onClick={() => {
-													dispatch(usersDeleted(row._id));
-													window.location.reload();
-												}}
-											>
-												<Delete />
-											</Button>
-										)}
-										{row.status == "active" ? (
-											<Button
-												onClick={() => {
-													dispatch(usersBanned(row._id));
-													window.location.reload();
-												}}
-											>
-												<Block />
-											</Button>
-										) : (
-											<Button
-												onClick={() => {
-													dispatch(userUnbanned(row._id));
-													window.location.reload();
-												}}
-											>
-												<CheckCircle />
-											</Button>
-										)}
-									</TableCell>
-								</TableRow>
-							))}
+							).map(
+								(row) =>
+									row.nama
+										.toLowerCase()
+										.includes(searchQuery.toLowerCase()) && (
+										<TableRow key={row._id}>
+											<TableCell>
+												<img
+													src={
+														import.meta.env.VITE_API_URL +
+														"/static/" +
+														row.profile
+													}
+													width={200}
+												/>
+											</TableCell>
+											<TableCell>{row.nama}</TableCell>
+											<TableCell>{row.username}</TableCell>
+											<TableCell>{row.email}</TableCell>
+											<TableCell>{row.no_hp}</TableCell>
+											<TableCell>{row.kota}</TableCell>
+											<TableCell>{row.alamat}</TableCell>
+											<TableCell>
+												{row.status == "active" ? (
+													<Typography color="green" sx={{ fontWeight: "bold" }}>
+														ACTIVE
+													</Typography>
+												) : row.status == "nonactive" ? (
+													<Typography color="red" sx={{ fontWeight: "bold" }}>
+														NONACTIVE
+													</Typography>
+												) : (
+													<Typography color="red" sx={{ fontWeight: "bold" }}>
+														BANNED
+													</Typography>
+												)}
+											</TableCell>
+											<TableCell>
+												<Button
+													onClick={() => {
+														setEditUser(true);
+														setUser(row);
+													}}
+												>
+													<Edit />
+												</Button>
+												{row.status == "nonactive" && (
+													<Button
+														onClick={() => {
+															dispatch(usersDeleted(row._id));
+															window.location.reload();
+														}}
+													>
+														<Delete />
+													</Button>
+												)}
+												{row.status == "active" ? (
+													<Button
+														onClick={() => {
+															dispatch(usersBanned(row._id));
+															window.location.reload();
+														}}
+													>
+														<Block />
+													</Button>
+												) : (
+													<Button
+														onClick={() => {
+															dispatch(userUnbanned(row._id));
+															window.location.reload();
+														}}
+													>
+														<CheckCircle />
+													</Button>
+												)}
+											</TableCell>
+										</TableRow>
+									),
+							)}
 							{emptyRows > 0 && (
 								<TableRow style={{ height: 53 * emptyRows }}>
 									<TableCell colSpan={6} />

@@ -120,10 +120,12 @@ TablePaginationActions.propTypes = {
 export default function MasterPet() {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		axios.get(`${import.meta.env.VITE_API_URL}/api/pet`).then(function (response) {
-			dispatch(petsLoaded(response.data));
-			console.log(response.data);
-		});
+		axios
+			.get(`${import.meta.env.VITE_API_URL}/api/pet`)
+			.then(function (response) {
+				dispatch(petsLoaded(response.data));
+				console.log(response.data);
+			});
 	}, []);
 	const rows = useSelector((state) => state.pet.pets);
 
@@ -175,106 +177,132 @@ export default function MasterPet() {
 		},
 	});
 
+	const [searchQuery, setSearchQuery] = useState("");
+
+	const handleSearch = (event) => {
+		setSearchQuery(event.target.value);
+	};
+
 	if (!EditPet) {
 		return (
-			<TableContainer
-				component={Paper}
-				sx={{ overflowX: "auto", maxWidth: 1000, minWidth: 1000, mt: 3 }}
-			>
-				<Table>
-					<TableHead>
-						<TableRow>
-							<TableCell sx={{ fontWeight: "bold" }}>Profile</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Nama</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Jenis</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Ras</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Umur</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
-							<TableCell sx={{ fontWeight: "bold" }}>Pemilik</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{(rowsPerPage > 0
-							? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-							: rows
-						).map((row) => (
-							<TableRow key={row._id}>
-								<TableCell sx={{ flex: 1 }}>
-									<img
-										src={
-											import.meta.env.VITE_API_URL + "/static/" + row.profile
-										}
-										width={100}
-									/>
-								</TableCell>
-								<TableCell>{row.nama}</TableCell>
-								<TableCell>{row.jenis}</TableCell>
-								<TableCell>{row.ras}</TableCell>
-								<TableCell>{row.umur}</TableCell>
-								<TableCell>
-									{row.status ? (
-										<Typography color="green" sx={{ fontWeight: "bold" }}>
-											ACTIVE
-										</Typography>
-									) : (
-										<Typography color="red" sx={{ fontWeight: "bold" }}>
-											NONACTIVE
-										</Typography>
-									)}
-								</TableCell>
-								<TableCell>{row.user.nama}</TableCell>
-								<TableCell>
-									<Button
-										onClick={() => {
-											setEditPet(true);
-											setPet(row);
-										}}
-									>
-										<Edit />
-									</Button>
-									{row.status ? (
-										<Button
-											onClick={() => {
-												dispatch(petsBanned(row._id));
-												window.location.reload();
-											}}
-										>
-											<Block />
-										</Button>
-									) : (
-										<Button
-											onClick={() => {
-												dispatch(petsUnbanned(row._id));
-												window.location.reload();
-											}}
-										>
-											<CheckCircle />
-										</Button>
-									)}
-								</TableCell>
+			<>
+				<TextField
+					label="Search"
+					value={searchQuery}
+					onChange={handleSearch}
+					sx={{ mt: 3 }}
+					fullWidth
+					color="success"
+				/>
+				<TableContainer
+					component={Paper}
+					sx={{ overflowX: "auto", maxWidth: 1000, minWidth: 1000, mt: 3 }}
+				>
+					<Table>
+						<TableHead>
+							<TableRow>
+								<TableCell sx={{ fontWeight: "bold" }}>Profile</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Nama</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Jenis</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Ras</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Umur</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
+								<TableCell sx={{ fontWeight: "bold" }}>Pemilik</TableCell>
 							</TableRow>
-						))}
-						{emptyRows > 0 && (
-							<TableRow style={{ height: 53 * emptyRows }}>
-								<TableCell colSpan={6} />
+						</TableHead>
+						<TableBody>
+							{(rowsPerPage > 0
+								? rows.slice(
+										page * rowsPerPage,
+										page * rowsPerPage + rowsPerPage,
+								  )
+								: rows
+							).map(
+								(row) =>
+									row.nama
+										.toLowerCase()
+										.includes(searchQuery.toLowerCase()) && (
+										<TableRow key={row._id}>
+											<TableCell sx={{ flex: 1 }}>
+												<img
+													src={
+														import.meta.env.VITE_API_URL +
+														"/static/" +
+														row.profile
+													}
+													width={100}
+												/>
+											</TableCell>
+											<TableCell>{row.nama}</TableCell>
+											<TableCell>{row.jenis}</TableCell>
+											<TableCell>{row.ras}</TableCell>
+											<TableCell>{row.umur}</TableCell>
+											<TableCell>
+												{row.status ? (
+													<Typography color="green" sx={{ fontWeight: "bold" }}>
+														ACTIVE
+													</Typography>
+												) : (
+													<Typography color="red" sx={{ fontWeight: "bold" }}>
+														NONACTIVE
+													</Typography>
+												)}
+											</TableCell>
+											<TableCell>{row.user.nama}</TableCell>
+											<TableCell>
+												<Button
+													onClick={() => {
+														setEditPet(true);
+														setPet(row);
+													}}
+												>
+													<Edit />
+												</Button>
+												{row.status ? (
+													<Button
+														onClick={() => {
+															dispatch(petsBanned(row._id));
+															window.location.reload();
+														}}
+													>
+														<Block />
+													</Button>
+												) : (
+													<Button
+														onClick={() => {
+															dispatch(petsUnbanned(row._id));
+															window.location.reload();
+														}}
+													>
+														<CheckCircle />
+													</Button>
+												)}
+											</TableCell>
+										</TableRow>
+									),
+							)}
+							{emptyRows > 0 && (
+								<TableRow style={{ height: 53 * emptyRows }}>
+									<TableCell colSpan={6} />
+								</TableRow>
+							)}
+						</TableBody>
+						<TableFooter>
+							<TableRow>
+								<TablePagination
+									rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+									count={rows.length}
+									rowsPerPage={rowsPerPage}
+									page={page}
+									onPageChange={handleChangePage}
+									onRowsPerPageChange={handleChangeRowsPerPage}
+									ActionsComponent={TablePaginationActions}
+								/>
 							</TableRow>
-						)}
-					</TableBody>
-					<TableFooter>
-						<TableRow>
-							<TablePagination
-								rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-								count={rows.length}
-								rowsPerPage={rowsPerPage}
-								page={page}
-								onPageChange={handleChangePage}
-								onRowsPerPageChange={handleChangeRowsPerPage}
-								ActionsComponent={TablePaginationActions}
-							/>
-						</TableRow>
-					</TableFooter>
-				</Table>
-			</TableContainer>
+						</TableFooter>
+					</Table>
+				</TableContainer>
+			</>
 		);
 	} else {
 		return (
