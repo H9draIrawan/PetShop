@@ -6,12 +6,38 @@ import {
   TextField,
   Container,
   Snackbar,
-  Alert
+  Alert,
+  Dialog,
+  DialogContentText,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
+import { redirect } from "react-router-dom";
+
+
+const DeleteModal = ({ open, onClose, onConfirmDelete }) => {
+	return (
+		<Dialog open={open} onClose={onClose}>
+			<DialogTitle>Account Delete Confirmation</DialogTitle>
+			<DialogContent>
+				<DialogContentText>Are you sure to delete your account?</DialogContentText>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={onClose} color="primary">
+					Cancel
+				</Button>
+				<Button onClick={onConfirmDelete} color="primary">
+					Delete Account
+				</Button>
+			</DialogActions>
+		</Dialog>
+	);
+};
 
 const userSchema = Yup.object({
   nama: Yup.string().required(),
@@ -23,6 +49,7 @@ const userSchema = Yup.object({
 }).required();
 
 export default function Detail() {
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isEdit, setEdit] = useState(false);
   const [profileData, setProfileData] = useState(null);
   const [toastSuccess, setToastSuccess] = useState(false);
@@ -54,6 +81,25 @@ export default function Detail() {
   const handleEdit = (e) => {
     e.preventDefault();
     setEdit(true);
+  }
+
+  const handleCancelEdit = (e) => {
+    e.preventDefault();
+    setEdit(false);
+  }
+
+  const handleDeleteAccount = async () => {
+    const localUserData = JSON.parse(localStorage.getItem("user"));
+
+    try {
+      await axios.delete(
+				`${import.meta.env.VITE_API_URL}/api/user/${localUserData._id}`,
+			);
+      
+      redirect("/login");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const onSubmit = async (data) => {
@@ -181,15 +227,27 @@ export default function Detail() {
             <Box marginTop={1} />
             {
               isEdit ?
-                <Button
-                  variant="contained"
-                  color="success"
-                  type="submit"
-                  disabled={Object.keys(errors).length > 0}
-                  style={{ width: "100px", marginTop: "10px" }}
-                >
-                  Save
-                </Button>
+                <Box display={'flex'} gap={4}>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    type="submit"
+                    disabled={Object.keys(errors).length > 0}
+                    style={{ width: "100px", marginTop: "10px" }}
+                    onClick={handleCancelEdit}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    type="submit"
+                    disabled={Object.keys(errors).length > 0}
+                    style={{ width: "100px", marginTop: "10px" }}
+                  >
+                    Save
+                  </Button>
+                </Box>
                 :
                 <Box display={'flex'} justifyContent={'space-between'}>
                   <Button
@@ -202,14 +260,17 @@ export default function Detail() {
                     Edit
                   </Button>
                   <Button
-                  variant="contained"
-                  color="error"
-                  type="button"
-                  style={{ width: "150px", marginTop: "10px"}}
-                  onClick={handleEdit}
-                >
-                  Delete Account
-                </Button>
+                    variant="contained"
+                    color="error"
+                    type="button"
+                    style={{ width: "150px", marginTop: "10px"}}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setDeleteModalOpen(true);
+                    }}
+                  >
+                    Delete Account
+                  </Button>
               </Box>
             }
           </form>
@@ -227,6 +288,15 @@ export default function Detail() {
               Success Edit Profile
             </Alert>
           </Snackbar>
+
+          {
+            // Delete modal
+          }
+          <DeleteModal
+            open={isDeleteModalOpen}
+            onClose={() => setDeleteModalOpen(false)}
+            onConfirmDelete={handleDeleteAccount}
+          />
         </Box>
       </Container>
     </>
