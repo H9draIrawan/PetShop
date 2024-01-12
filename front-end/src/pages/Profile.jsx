@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import Dashboard from "./Dashboard";
 import History from "./History";
 import Detail from "./DetailAccount";
-import Pet from "./Pet";
+import PetProfile from "./PetProfile";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -89,7 +89,7 @@ export default function Profile() {
 				<Detail />
 			</TabPanel>
 			<TabPanel value={value} index={3}>
-				<Pet />
+				<PetProfile />
 			</TabPanel>
 		</Box>
 	);
