@@ -255,7 +255,7 @@ export default function KritikSaran() {
 				{/* CARD-BASED USER ORDERS */}
 				<Grid container spacing={3}>
 					{orders.map((order) => {
-						if (order.status)
+						if (order.status && !order.review)
 							return (
 								<Grid item key={order._id} xs={12} md={6} lg={4}>
 									<Paper elevation={3} sx={{ p: 2, height: "100%" }}>
