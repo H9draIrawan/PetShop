@@ -80,11 +80,11 @@ export default function PetProfile() {
 	return (
 		<Container>
 			<Typography fontSize={32} mb={2}> Daftar Pet Peliharaan Kamu</Typography>
-				<Stack sx={{mt:3}}>
+				<Stack sx={{mt:3}} direction="row" flexWrap={"wrap"} justifyContent={"space-around"}>
 					{rows.map(
 						(row) => row.status && row.user._id == JSON.parse(localStorage.getItem("user"))._id && (
 							<Stack key={row._id} sx={{mb:3}}>
-								<Card sx={{ display: 'flex' , width: 380, justifyContent: 'space-between'}}>
+								<Card sx={{ display: 'flex' , width: 380, justifyContent: 'space-between', maxHeight:120}}>
 									<Box sx={{ display: 'flex', flexDirection: 'column' }}>
 										<CardContent sx={{ flex: '1 0 auto' }}>
 											<Typography component="div" variant="h5">

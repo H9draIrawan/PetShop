@@ -81,13 +81,13 @@ export default function Pet() {
 		<Container>
 			{!Form && (
 				<Stack sx={{ mt: 3 }}>
-					<Stack direction="row" spacing={3}>
+					<Stack direction="row" sx={{flexWrap: "wrap"}} justifyContent={"space-around"}>
 						{rows.map(
 							(row) =>
 								row.status &&
 								row.user._id ==
 									JSON.parse(localStorage.getItem("user"))._id && (
-									<Stack key={row._id} sx={{ mb: 3 }}>
+									<Stack key={row._id} padding={2}>
 										<Card
 											sx={{
 												display: "flex",
