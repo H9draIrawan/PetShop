@@ -32,8 +32,9 @@ import Joi from "joi";
 export default function Pet() {
 	const dispatch = useDispatch();
 	useEffect(() => {
+		const userId = JSON.parse(localStorage.getItem("user"))._id;
 		axios
-			.get(`${import.meta.env.VITE_API_URL}/api/pet`)
+			.get(`${import.meta.env.VITE_API_URL}/api/pet/user/${userId}`)
 			.then(function (response) {
 				dispatch(petsLoaded(response.data));
 				console.log(response.data);

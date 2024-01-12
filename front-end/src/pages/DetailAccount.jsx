@@ -96,6 +96,7 @@ export default function Detail() {
 				`${import.meta.env.VITE_API_URL}/api/user/${localUserData._id}`,
 			);
       
+		  localStorage.removeItem("user");
       redirect("/login");
     } catch (error) {
       console.error(error);
